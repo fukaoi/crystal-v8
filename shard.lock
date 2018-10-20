@@ -1,0 +1,6 @@
+version: 1.0
+shards:
+  duktape:
+    github: jessedoyle/duktape.cr
+    version: 0.15.0
+
