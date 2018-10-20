@@ -15,6 +15,15 @@ module Duk::Js
       print("You are " + calcAge(birthYear));
     JS
   end
+
+  def self.run_js
+    sbx = Duktape::Sandbox.new
+    sbx.eval! <<-JS
+      var test = require("./src/test");
+      print(test);
+    JS
+  end
 end
 
-Duk::Js.run
+# Duk::Js.run
+Duk::Js.run_js
