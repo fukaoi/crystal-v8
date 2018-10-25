@@ -1,0 +1,12 @@
+
+<html>
+  <head>
+      <script src="./stellar-base.js"></script>
+      <script>
+        var keypair = StellarBase.Keypair.random();
+        console.log(pubkey = keypair.publicKey());
+        console.log(source = new StellarBase.Account(pubkey, "0"));
+        console.log(new StellarBase.TransactionBuilder(source).build().toEnvelope().toXDR('base64'));
+      </script>
+  </head>
+</html>
