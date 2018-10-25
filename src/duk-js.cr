@@ -3,6 +3,7 @@ require "duktape"
 
 module Duk::Js
   def self.run
+    !pp @@file = File.read("./stellar-base.js")
     sbx = Duktape::Sandbox.new
     sbx.eval! <<-JS
       var birthYear = 1990;
@@ -19,11 +20,10 @@ module Duk::Js
   def self.run_js
     sbx = Duktape::Sandbox.new
     sbx.eval! <<-JS
-      var test = require("./src/test");
-      print(test);
+      @@file
     JS
   end
 end
 
-# Duk::Js.run
+Duk::Js.run
 Duk::Js.run_js
