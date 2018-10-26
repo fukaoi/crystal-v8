@@ -17,7 +17,7 @@ module Duk::Js
   end
 
   def self.run_js
-    !pp @@file = File.read("./main.js")
+    @@file = File.read("./main.js")
     sbx = Duktape::Sandbox.new
     sbx.eval! <<-JS
       #{@@file}
