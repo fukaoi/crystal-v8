@@ -4,5 +4,5 @@
 /.shards/
 *.dwarf
 node_modules/*
-include/*
+v8/*
 .vscode/
