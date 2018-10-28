@@ -7,6 +7,13 @@ build:
 
 .PHONY: install
 install:
+	@if [ ! -d depot_tools ]; then \
+		git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git; \
+        fi
+
+	export PATH=`pwd`/depot_tools:"$PATH"
+	fetch v8
+	cd v8; gclient sync
 
 .PHONY: clean
 clean:
