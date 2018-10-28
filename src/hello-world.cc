@@ -21,8 +21,7 @@ int main(int argc, char* argv[]) {
     v8::HandleScope handle_scope(isolate);
     v8::Local<v8::Context> context = v8::Context::New(isolate);
     v8::Context::Scope context_scope(context);
-    v8::Local<v8::String> source = v8::String::NewFromUtf8(isolate, "Hello world!" + ':test', v8::NewStringType::kNormal).ToLocalChecked();
-    v8::Local<v8::Script> script = v8::Script::Compile(context, source).ToLocalChecked();
+    v8::Local<v8::String> source = v8::String::NewFromUtf8(isolate, "'Hello world!' + new Date()", v8::NewStringType::kNormal).ToLocalChecked();
     v8::Local<v8::Script> script = v8::Script::Compile(context, source).ToLocalChecked();
     v8::Local<v8::Value> result = script->Run(context).ToLocalChecked();
     v8::String::Utf8Value utf8(isolate, result);
