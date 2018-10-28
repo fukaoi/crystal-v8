@@ -8,3 +8,4 @@ v8/*
 .cipd/
 .gclient
 .gclient_entries
+bin/*
