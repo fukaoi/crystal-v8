@@ -5,6 +5,7 @@
 #include "v8.h"
 
 int main(int argc, char* argv[]) {
+  printf("argv: %s\n", argv[0]);
   v8::V8::InitializeICUDefaultLocation(argv[0]);
   v8::V8::InitializeExternalStartupData(argv[0]);
   std::unique_ptr<v8::Platform> platform = v8::platform::NewDefaultPlatform();
