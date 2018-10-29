@@ -1,10 +1,10 @@
-# @[Link(ldflags: "#{__DIR__}/hello.o")]
+@[Link(ldflags: "#{__DIR__}/hello.o")]
 
-# lib Say
-#   fun hello(name : LibC::Char*) : Void
-# end
+lib Say
+  fun hello(name : LibC::Char*) : Void
+end
 
-# Say.hello("your name")
+Say.hello("your name")
 
 @[Link(ldflags: "#{__DIR__}/jslib.o")]
 

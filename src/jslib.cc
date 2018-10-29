@@ -42,9 +42,3 @@ extern "C"
     delete create_params.array_buffer_allocator;
   }
 }
-
-int main()
-{
-  jslib();
-  return 0;
-}
