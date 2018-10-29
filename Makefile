@@ -1,3 +1,5 @@
+LIB_DIR   := $(PWD)/ext
+
 .PHONY: full-build
 full-build:
 	export PATH=`pwd`/depot_tools:"$PATH"
@@ -14,8 +16,8 @@ build:
 
 .PHONY: run
 run:
-	cp -r v8/out.gn/x64.release.sample/lib*.so $(PWD)/src 
-	export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(PWD)/src
+	cp -r v8/out.gn/x64.release.sample/lib*.so $(LIB_DIR)
+	export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(LIB_DIR)
 	./bin/glue
 
 

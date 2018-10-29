@@ -14,3 +14,4 @@ lib Say
 end
 
 Say.jslib("new Date()")
+# Say.jslib("const a = 10;let b = 10;a + b;")
