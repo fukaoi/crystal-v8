@@ -11,6 +11,7 @@ require "file_utils"
 
 LIB_PATH = FileUtils.pwd + "/ext"
 
+
 @[Link(ldflags: " \
   #{__DIR__}/jslib.o -lstdc++ \
   #{__DIR__}/../ext/libicui18n.so \
@@ -19,10 +20,13 @@ LIB_PATH = FileUtils.pwd + "/ext"
   #{__DIR__}/../ext/libv8_libbase.so \
   #{__DIR__}/../ext/libv8.so"
 )]
-
 lib Say
   fun jslib(jscode : LibC::Char*) : Void
 end
 
+!pp LibC.strlen("test")
+
+Say.jslib("new Date()")
+Say.jslib("new Date()")
 Say.jslib("new Date()")
 # Say.jslib("const a = 10;let b = 10;a + b;")
