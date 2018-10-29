@@ -6,11 +6,8 @@
 
 extern "C"
 {
-  void jslib(void)
+  void jslib(char* code)
   {
-    // printf("argv: %s\n", argv[0]);
-    // v8::V8::InitializeICUDefaultLocation(argv[0]);
-    // v8::V8::InitializeExternalStartupData(argv[0]);
     std::unique_ptr<v8::Platform> platform = v8::platform::NewDefaultPlatform();
     v8::V8::InitializePlatform(platform.get());
     v8::V8::Initialize();
@@ -27,7 +24,7 @@ extern "C"
       v8::Context::Scope context_scope(context);
       v8::Local<v8::String> source = v8::String::NewFromUtf8(
                                          isolate,
-                                         "10 + 1000",
+                                         code,
                                          v8::NewStringType::kNormal)
                                          .ToLocalChecked();
       v8::Local<v8::Script> script = v8::Script::Compile(context, source).ToLocalChecked();
