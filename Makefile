@@ -1,14 +1,21 @@
-.PHONY: build
-build:
+.PHONY: full-build
+full-build:
+	export PATH=`pwd`/depot_tools:"$PATH"
 	cd v8; ./tools/dev/v8gen.py x64.release.sample
 	cd v8; gn args out.gn/x64.release.sample
 	cd v8; ninja -C out.gn/x64.release.sample
 	cd v8;  g++ -I. -Iinclude -c ../src/jslib.cc -o ../src/jslib.o -Lout.gn/x64.release.sample/obj/ -pthread -std=c++0x
 	crystal build src/duk-js.cr -o bin/glue
 
+.PHONY: build
+build:
+	cd v8;  g++ -I. -Iinclude -c ../src/jslib.cc -o ../src/jslib.o -Lout.gn/x64.release.sample/obj/ -pthread -std=c++0x
+	crystal build src/duk-js.cr -o bin/glue
+
 .PHONY: run
 run:
-	export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(HOME)/src
+	cp -r v8/out.gn/x64.release.sample/lib*.so $(PWD)/src 
+	export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(PWD)/src
 	./bin/glue
 
 
@@ -25,4 +32,4 @@ install:
 .PHONY: clean
 clean:
 	rm -rf bin/*
-
+	rm -rf v8/out.gn
