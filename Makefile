@@ -7,7 +7,7 @@ full-build:
 	cd v8; ./tools/dev/v8gen.py x64.debug
 	cd v8; gn args out.gn/x64.debug
 	cd v8; ninja -C out.gn/x64.debug
-	cd v8;  g++ -I. -Iinclude -c ../src/jslib.cc -o ../src/jslib.o -Lout.gn/x64.debug/obj/ -pthread -std=c++0x
+	cd v8;  g++ -I. -Iinclude -c ../src/jslib.cc -fPIC -o ../src/jslib.o -Lout.gn/x64.debug/obj/ -pthread -std=c++0x
 	crystal build src/$(NAME).cr -o bin/$(NAME)
 
 .PHONY: build
@@ -37,5 +37,9 @@ install:
 
 .PHONY: clean
 clean:
+	rm -rf bin/*
+
+	.PHONY: full-clean
+full-clean:
 	rm -rf bin/*
 	rm -rf v8/out.gn
