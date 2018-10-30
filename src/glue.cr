@@ -27,6 +27,4 @@ end
 !pp LibC.strlen("test")
 
 Say.jslib("new Date()")
-Say.jslib("new Date()")
-Say.jslib("new Date()")
-# Say.jslib("const a = 10;let b = 10;a + b;")
+Say.jslib("const a = 10;let b = 10;a + b;")
