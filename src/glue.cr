@@ -25,6 +25,8 @@ lib Say
 end
 
 !pp LibC.strlen("test")
+!pp LibC.strlen("てすとだお")
 
-Say.jslib("new Date()")
+# Say.jslib("new Date()")
 Say.jslib("const a = 10;let b = 10;a + b;")
+Say.jslib("const fn = function(a){return a * 999};fn(10)")
