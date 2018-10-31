@@ -4,7 +4,7 @@
 #include "libplatform/libplatform.h"
 #include "v8.h"
 
-int jslib(char *code, v8::Isolate* isolate) {
+int jslib(const char *code, v8::Isolate* isolate) {
   // Create a new Isolate and make it the current one.
 
   { 
@@ -13,6 +13,7 @@ int jslib(char *code, v8::Isolate* isolate) {
     v8::HandleScope handle_scope(isolate);
     // Create a new context.
     v8::Local<v8::Context> context = v8::Context::New(isolate);
+    context->Enter();
     // Enter the context for compiling and running the hello world script.
     v8::Context::Scope context_scope(context);
     // Create a string containing the JavaScript source code.
@@ -30,7 +31,6 @@ int jslib(char *code, v8::Isolate* isolate) {
     printf("%s\n", *utf8);
   }
   // Dispose the isolate and tear down V8.
-  isolate->Dispose();
   return 0;
 }
 
@@ -46,8 +46,10 @@ int main(int argc, char *argv[])
   create_params.array_buffer_allocator =
   v8::ArrayBuffer::Allocator::NewDefaultAllocator();
   v8::Isolate* isolate = v8::Isolate::New(create_params);
+  isolate->Enter();
   jslib("2 * 2", isolate);
   jslib("10 + 20", isolate);
+  // isolate->Dispose();
   v8::V8::Dispose();
   v8::V8::ShutdownPlatform();
   delete create_params.array_buffer_allocator;
