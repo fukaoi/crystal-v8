@@ -52,6 +52,7 @@ int main(int argc, char *argv[])
   isolate->Enter();
   jslib("2 * 2", isolate);
   jslib("10 + 20", isolate);
+  jslib("class Person {constructor(name) {this.name = name;}sayHello() {return ('Hello, Im ' + this.getName());}getName() {return this.name;}}; new Person('山田敬三').sayHello();", isolate);
   // isolate->Dispose();
   v8::V8::Dispose();
   v8::V8::ShutdownPlatform();
