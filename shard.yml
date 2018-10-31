@@ -1,18 +1,17 @@
-name: duk-js
+name: V8.cr
 version: 0.1.0
 
 authors:
   - fukaoi 
 
 targets:
-  duk-js:
-    main: src/duk-js.cr
+  v8:
+    main: src/v8.cr
 
 crystal: 0.25.1
 
 license: MIT
 
 dependencies:
-  duktape:
-    github: jessedoyle/duktape.cr
-    version: ~> 0.15.0
+  lucky_cli:
+    github: luckyframework/lucky_cli
