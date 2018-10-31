@@ -9,7 +9,7 @@ v8/*
 .gclient
 .gclient_entries
 bin/*
-depot_tools/
+tools/
 *.o
 ext/*
 core
