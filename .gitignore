@@ -9,3 +9,4 @@ v8/*
 .gclient_entries
 bin/*
 depot_tools/
+*.o
