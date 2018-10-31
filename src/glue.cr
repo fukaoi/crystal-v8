@@ -2,7 +2,7 @@ require "file_utils"
 
 #### gn config ####
 # is_component_build = true
-# is_debug = false
+# is_debug = true
 # target_cpu = "x64"
 # use_custom_libcxx = false
 # v8_monolithic = false
@@ -26,7 +26,18 @@ end
 
 #Say.jslib("new Date()")
 # Say.jslib("const a = 10;let b = 10;a + b;")
-Say.jslib("const fn = function(a){return a * 999};fn(10)")
-Say.jslib("const fn = (a)=> {return a * 555};fn(10)")
+Say.jslib("class Person {
+  constructor(name) {
+    this.name = name;
+  }
+  sayHello() {
+    return (\"Hello, I'm \" + this.getName());
+  }
+  getName() {
+    return this.name;
+  }
+}; new Person('山田敬三').sayHello();")
+# Say.jslib("const fn = function(a){return a * 999};fn(10)")
+# Say.jslib("const fn = (a)=> {return a * 555};fn(10)")
 
 
