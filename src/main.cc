@@ -37,8 +37,11 @@ int jslib(const char *code, v8::Isolate* isolate) {
 int main(int argc, char *argv[])
 {
     // Initialize V8.
-  v8::V8::InitializeICUDefaultLocation(argv[0]);
-  v8::V8::InitializeExternalStartupData(argv[0]);
+  // v8::V8::InitializeICUDefaultLocation(argv[0]);
+  // v8::V8::InitializeExternalStartupData(argv[0]);
+  v8::V8::InitializeICUDefaultLocation("./bin/main");
+  v8::V8::InitializeExternalStartupData("./bin/main");
+
   std::unique_ptr<v8::Platform> platform = v8::platform::NewDefaultPlatform();
   v8::V8::InitializePlatform(platform.get());
   v8::V8::Initialize();
