@@ -39,7 +39,7 @@ install:
 clean:
 	rm -rf bin/*
 
-	.PHONY: full-clean
+.PHONY: full-clean
 full-clean:
 	rm -rf bin/*
 	rm -rf v8/out.gn
