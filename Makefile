@@ -6,8 +6,8 @@ full-build:
 	export PATH=`pwd`/depot_tools:"$PATH"
 	cd v8; ./tools/dev/v8gen.py x64.debug
 	cd v8; gn args out.gn/x64.debug
-	cd v8; ninja -C out.gn/x64.debug
-	cd v8;  g++ -I. -Iinclude -c ../src/jslib.cc -fPIC -o ../ext/jslib.o -Lout.gn/x64.debug/obj/ -pthread -std=c++0x
+	cd v8; ninja -C out.gn/x64.debug v8_monolith
+	cd v8;  g++ -I. -Iinclude -c ../src/jslib.cc -fPIC -o ../ext/jslib.o -lv8_monolith -Lout.gn/x64.debug/obj/ -pthread -std=c++0x 
 	crystal build src/$(NAME).cr -o bin/$(NAME)
 
 .PHONY: full-build2
@@ -20,13 +20,13 @@ full-build2:
 
 .PHONY: build
 build:
-	cd v8;  g++ -I. -Iinclude -c ../src/jslib.cc -o ../ext/jslib.o -Lout.gn/x64.debug/obj/ -pthread -std=c++0x
+	export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(LIB_DIR)
+	cp -r v8/out.gn/x64.debug/lib*.so $(LIB_DIR)
+	cd v8;  g++  -shared -I. -Iinclude -c ../src/jslib.cc -o ../ext/jslib.o -L../ext -lv8_libplatform -licui18n -licuuc -lv8_libbase -lv8 -pthread -std=c++0x
 	crystal build src/$(NAME).cr -o bin/$(NAME)
 
 .PHONY: run
 run:
-	cp -r v8/out.gn/x64.debug/lib*.so $(LIB_DIR)
-	export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(LIB_DIR)
 	./bin/$(NAME)
 
 .PHONY: run2
