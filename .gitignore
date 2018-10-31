@@ -11,3 +11,4 @@ bin/*
 depot_tools/
 *.o
 ext/*
+core
