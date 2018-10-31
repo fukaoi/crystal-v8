@@ -10,3 +10,4 @@ v8/*
 bin/*
 depot_tools/
 *.o
+ext/*
