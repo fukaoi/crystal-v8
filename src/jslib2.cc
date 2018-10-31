@@ -4,9 +4,6 @@
 #include "libplatform/libplatform.h"
 #include "v8.h"
 
-extern "C"
-{
-
   v8::Isolate* initialize(){
     std::unique_ptr<v8::Platform> platform = v8::platform::NewDefaultPlatform();
     v8::V8::InitializePlatform(platform.get());
@@ -20,6 +17,9 @@ extern "C"
   }
 
 
+
+extern "C"
+{
   void jslib(char* code)
   {
     v8::Isolate* isolate = initialize();
