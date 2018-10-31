@@ -3,5 +3,6 @@
 #include <string.h>
 
 void main() {
-  jslib("new Date()", "glue");
+  jslib("1+1");
+  // jslib("new Date()", "glue");
 }
