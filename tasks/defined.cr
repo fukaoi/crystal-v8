@@ -8,7 +8,7 @@ GN_DEVELOPMENT_DIR = "out.gn/x64.debug"
 GN_TEST_DIR        = "out.gn/x64.release.sample"
 
 V8_RELEASR_RAPPER     = "v8_glue"
-V8_DEVELOPMENT_RAPPER = "jslib"
+V8_DEVELOPMENT_RAPPER = "glue"
 V8_TEST_RAPPER        = "main"
 
 def set_env

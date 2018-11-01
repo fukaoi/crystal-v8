@@ -11,7 +11,10 @@ require "file_utils"
 
 @[Link(ldflags: " \
   #{__DIR__}/../lib/jslib.o \
+  #{__DIR__}/../lib/libicui18n.so \
   #{__DIR__}/../lib/libv8_libplatform.so \
+  #{__DIR__}/../lib/libicuuc.so \
+  #{__DIR__}/../lib/libv8_libbase.so \
   #{__DIR__}/../lib/libv8.so \
   -lstdc++"
 )]
