@@ -14,6 +14,7 @@ V8_TEST_RAPPER        = "main"
 def set_env
   ENV["PATH"] += ":#{ENV["PWD"]}/#{DEPOT_DIR}"
   ENV["LD_LIBRARY_PATH"] = "#{ENV["PWD"]}/#{LIBRARY_DIR}"
+  # export LD_LIBRARY_PATH=`pwd`/lib
 end
 
 set_env

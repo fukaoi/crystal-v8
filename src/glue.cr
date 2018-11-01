@@ -38,7 +38,7 @@ Say.jslib("class Person {
     return this.name;
   }
 }; new Person('山田敬三').sayHello();")
-# Say.jslib("const fn = function(a){return a * 999};fn(10)")
-# Say.jslib("const fn = (a)=> {return a * 555};fn(10)")
+Say.jslib("const fn = function(a){return a * 999};fn(10)")
+Say.jslib("const fn = (a)=> {return a * 555};fn(10)")
 
 
