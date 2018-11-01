@@ -18,7 +18,7 @@ class FullClean < LuckyCli::Task
 
   def call
     Clean.new.call
-    unless system("rm -rf #{V8_DIR}")
+    unless system("rm -rf ./#{V8_DIR}")
       puts "Failed clean up"
     else
       puts "full clean up"

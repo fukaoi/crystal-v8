@@ -7,7 +7,8 @@ class Build < LuckyCli::Task
   @cplus_option : String
 
   def initialize
-    return unless ARGV[0] == "build"
+    return unless ARGV == ["build"]
+    return unless ARGV == ["full_build"]
     case ENV["LUCKY_ENV"]
     when "release"
       @gn_env_dir   = GN_RELEASE_DIR
@@ -28,8 +29,6 @@ class Build < LuckyCli::Task
   end
 
   def call
-    system("export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:#{LIBRARY_DIR}")
-    system("cp -r v8/out.gn/#{@gn_env_dir}/lib*.so #{LIBRARY_DIR}")
     cplus_build
     crystal_build
   end
@@ -50,12 +49,13 @@ class FullBuild < LuckyCli::Task
   def call
     obj = Build.new
     obj.call
-    system("cd #{V8_DIR}; ./tools/dev/v8gen.py ./#{obj.@gn_env_dir}")
-    system("cd #{V8_DIR}; gn args ./#{obj.@gn_env_dir}")
+    system("cd ./#{V8_DIR}; ./tools/dev/v8gen.py ./#{obj.@gn_env_dir}")
+    system("cd ./#{V8_DIR}; gn args ./#{obj.@gn_env_dir}")
     if obj.@env == "test"
-      system("cd #{V8_DIR}; ninja -C #{obj.@gn_env_dir} v8_monolith")
+      system("cd ./#{V8_DIR}; ninja -C #{obj.@gn_env_dir} v8_monolith")
     else
-      system("cd #{V8_DIR}; ninja -C #{obj.@gn_env_dir}")
+      system("cd ./#{V8_DIR}; ninja -C #{obj.@gn_env_dir}")
     end
+    system("cp -r #{V8_DIR}/out.gn/#{obj.@gn_env_dir}/lib*.so ./#{LIBRARY_DIR}")
   end
 end
