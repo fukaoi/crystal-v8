@@ -8,8 +8,6 @@ extern "C"
 {
   int jsparser(const char *code, v8::Isolate *isolate)
   {
-    // Create a new Isolate and make it the current one.
-
     {
       v8::Isolate::Scope isolate_scope(isolate);
       // Create a stack-allocated handle scope.
@@ -33,7 +31,6 @@ extern "C"
       v8::String::Utf8Value utf8(isolate, result);
       printf("%s\n", *utf8);
     }
-    // Dispose the isolate and tear down V8.
     return 0;
   }
 

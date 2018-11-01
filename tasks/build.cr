@@ -61,8 +61,17 @@ end
 
 # ### test ####
 # is_component_build = false
-# is_debug = false
+# is_debug = true
 # target_cpu = "x64"
 # use_custom_libcxx = false
 # v8_monolithic = true
+# v8_use_external_startup_data = false
+
+#### development ####
+# v8_static_library = true
+# is_component_build = true
+# is_debug = true
+# target_cpu = "x64"
+# use_custom_libcxx = false
+# v8_monolithic = false
 # v8_use_external_startup_data = false
