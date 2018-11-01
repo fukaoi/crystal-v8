@@ -1,8 +1,11 @@
+require "./defined"
+
 class Clean < LuckyCli::Task
   banner "clean up bin/*"
+  BIN_RM = "rm -rf bin/*"
 
   def call
-    unless system("rm -rf bin/*")
+    unless system(BIN_RM)
       puts "Failed clean up"
     else
       puts "clean up"
@@ -14,7 +17,8 @@ class FullClean < LuckyCli::Task
   banner "clean up bin/* and v8/"
 
   def call
-    unless system("rm -rf bin/*;rm -rf v8/")
+    Clean.new.call
+    unless system("rm -rf #{V8_DIR}")
       puts "Failed clean up"
     else
       puts "clean up"
