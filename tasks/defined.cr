@@ -11,11 +11,12 @@ V8_DEVELOPMENT_RAPPER  = "jslib"
 V8_TEST_RAPPER         = "main"
 
 def export_depot_tools
-  system("export PATH=#{TOOLS_DIR}/depot_tools:$PATH")
+  system("export PATH=#{DEPOT_DIR}:$PATH")
 end
 
 def get_project_name
   # todo: extract shard.yml
   "glue-js"
 end
+
 export_depot_tools

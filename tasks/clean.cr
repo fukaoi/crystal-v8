@@ -21,7 +21,7 @@ class FullClean < LuckyCli::Task
     unless system("rm -rf #{V8_DIR}")
       puts "Failed clean up"
     else
-      puts "clean up"
+      puts "full clean up"
     end
   end
 end

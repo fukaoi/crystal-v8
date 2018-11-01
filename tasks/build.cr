@@ -7,7 +7,7 @@ class Build < LuckyCli::Task
   @cplus_option : String
 
   def initialize
-    return if ARGV[0] == "--help"
+    return unless ARGV[0] == "build"
     case ENV["LUCKY_ENV"]
     when "release"
       @gn_env_dir   = GN_RELEASE_DIR
