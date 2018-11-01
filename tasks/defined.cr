@@ -13,12 +13,12 @@ V8_TEST_RAPPER        = "main"
 
 def set_env
   ENV["PATH"] += ":#{ENV["PWD"]}/#{DEPOT_DIR}"
-  ENV["LD_LIBRARY_PATH"] = ":#{ENV["PWD"]}/#{LIBRARY_DIR}"
+  ENV["LD_LIBRARY_PATH"] = "#{ENV["PWD"]}/#{LIBRARY_DIR}"
 end
 
 set_env
 
 def get_project_name
   # todo: extract shard.yml
-  "glue-js"
+  "glue"
 end

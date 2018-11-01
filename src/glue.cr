@@ -10,18 +10,14 @@ require "file_utils"
 # v8_static_library = true
 
 @[Link(ldflags: " \
-  #{__DIR__}/../ext/jslib.o \
-  #{__DIR__}/../ext/libc++.so \
-  #{__DIR__}/../ext/libicui18n.so \
-  #{__DIR__}/../ext/libv8_libplatform.so \
-  #{__DIR__}/../ext/libicuuc.so \
-  #{__DIR__}/../ext/libv8_libbase.so \
-  #{__DIR__}/../ext/libv8.so"
+  #{__DIR__}/../lib/jslib.o \
+  #{__DIR__}/../lib/libv8_libplatform.so \
+  #{__DIR__}/../lib/libv8.so \
+  -lstdc++"
 )]
-# @[Link("#{__DIR__}/../ext/jslib.o")]
-# lib Say
-#   fun jslib(jscode : LibC::Char*) : Void
-# end
+lib Say
+  fun jslib(jscode : LibC::Char*) : Void
+end
 
 #!pp LibC.strlen("test")
 #!pp LibC.strlen("てすとだお")

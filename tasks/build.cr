@@ -29,14 +29,15 @@ class Build < LuckyCli::Task
   end
 
   def crystal_build
-    system("crystal build src/#{get_project_name}.cr -o bin/#{get_project_name}")
+    !p ENV["LD_LIBRARY_PATH"] 
+    system("crystal build #{ENV["PWD"]}/src/#{get_project_name}.cr -o bin/#{get_project_name}")
   end
 
   def cplus_build
     if self.@env == "test"
       system("cd #{V8_DIR};  g++ -I. -Iinclude  ../../src/#{@file_name}.cc -fPIC -o ../../bin/#{@file_name} -L#{@gn_env_dir}/obj/ -lv8_monolith -pthread -std=c++0x")
     else
-      system("cd #{V8_DIR};  g++ -I. -Iinclude -c ../../src/#{@file_name}.cc -fPIC -o ../../bin/#{@file_name} -L#{@gn_env_dir}/obj/ -pthread -std=c++0x")
+      system("cd #{V8_DIR};  g++ -I. -Iinclude -c ../../src/#{@file_name}.cc -fPIC -o ../../lib/#{@file_name}.o -L#{@gn_env_dir}/obj/ -pthread -std=c++0x")
     end
   end
 end
@@ -52,7 +53,7 @@ class FullBuild < Build
       self.cplus_build
     else
       system("cd ./#{V8_DIR}; ninja -C #{self.@gn_env_dir}")
-      system("cp -r #{V8_DIR}/out.gn/#{self.@gn_env_dir}/lib*.so ./#{LIBRARY_DIR}")
+      system("cp -r #{V8_DIR}/#{self.@gn_env_dir}/lib*.so ./#{LIBRARY_DIR}")
       self.cplus_build
       self.crystal_build
     end
