@@ -2,21 +2,21 @@ require "./defined"
 
 class Build < LuckyCli::Task
   banner "Build C++, Crystal program files"
-  @gn_env_dir   : String
-  @file_name    : String
+  @gn_env_dir : String
+  @file_name : String
 
   def initialize
     return if ARGV != ["build"] && ARGV != ["full_build"]
     case ENV["LUCKY_ENV"]
     when "release"
-      @gn_env_dir   = GN_RELEASE_DIR
-      @file_name    = V8_RELEASR_RAPPER
+      @gn_env_dir = GN_RELEASE_DIR
+      @file_name = V8_RELEASR_RAPPER
     when "development"
       @gn_env_dir = GN_DEVELOPMENT_DIR
-      @file_name  = V8_DEVELOPMENT_RAPPER
+      @file_name = V8_DEVELOPMENT_RAPPER
     when "test"
       @gn_env_dir = GN_TEST_DIR
-      @file_name  = V8_TEST_RAPPER
+      @file_name = V8_TEST_RAPPER
     else
       raise Exception.new("No match enviroment value: #{ENV["LUCKY_ENV"]}")
     end
@@ -59,7 +59,7 @@ class FullBuild < Build
   end
 end
 
-#### test ####
+# ### test ####
 # is_component_build = false
 # is_debug = false
 # target_cpu = "x64"
