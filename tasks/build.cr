@@ -29,7 +29,6 @@ class Build < LuckyCli::Task
   end
 
   def crystal_build
-    !p ENV["LD_LIBRARY_PATH"] 
     system("crystal build #{ENV["PWD"]}/src/#{get_project_name}.cr -o bin/#{get_project_name}")
   end
 
