@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <iostream>
+#include <sstream>
 #include "libplatform/libplatform.h"
 #include "v8.h"
 
@@ -34,6 +36,8 @@ extern "C"
     return 0;
   }
 
+  v8::Isolate *isolate;
+
   void jslib(char *code)
   {
     // Initialize V8.
@@ -42,15 +46,20 @@ extern "C"
     std::unique_ptr<v8::Platform> platform = v8::platform::NewDefaultPlatform();
     v8::V8::InitializePlatform(platform.get());
     v8::V8::Initialize();
-    v8::Isolate::CreateParams create_params;
-    create_params.array_buffer_allocator =
-        v8::ArrayBuffer::Allocator::NewDefaultAllocator();
-    v8::Isolate *isolate = v8::Isolate::New(create_params);
-    isolate->Enter();
+
+
+      v8::Isolate::CreateParams create_params;
+      create_params.array_buffer_allocator =
+          v8::ArrayBuffer::Allocator::NewDefaultAllocator();
+      if (!isolate) {
+       isolate = v8::Isolate::New(create_params);    
+       isolate->Enter();       
+      }    
+      delete create_params.array_buffer_allocator;
+
     jsparser(code, isolate);
     // isolate->Dispose();
     v8::V8::Dispose();
     v8::V8::ShutdownPlatform();
-    delete create_params.array_buffer_allocator;
   }
 }

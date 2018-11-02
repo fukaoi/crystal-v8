@@ -25,8 +25,8 @@ end
 #!pp LibC.strlen("test")
 #!pp LibC.strlen("てすとだお")
 
-#Say.jslib("new Date()")
-# Say.jslib("const a = 10;let b = 10;a + b;")
+Say.jslib("new Date()")
+Say.jslib("const a = 10;let b = 10;a + b;")
 Say.jslib("class Person {
   constructor(name) {
     this.name = name;
@@ -38,7 +38,7 @@ Say.jslib("class Person {
     return this.name;
   }
 }; new Person('山田敬三').sayHello();")
-Say.jslib("const fn = function(a){return a * 999};fn(10)")
+# Say.jslib("const fn = function(a){return a * 999};fn(10)")
 Say.jslib("const fn = (a)=> {return a * 555};fn(10)")
 
 

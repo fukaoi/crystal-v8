@@ -26,6 +26,7 @@ class Build < LuckyCli::Task
   def call
     cplus_build
     crystal_build
+    puts "build done."
   end
 
   def crystal_build
@@ -56,6 +57,7 @@ class FullBuild < Build
       self.cplus_build
       self.crystal_build
     end
+    puts "full_build done."
   end
 end
 
