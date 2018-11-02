@@ -10,7 +10,6 @@ extern "C"
 {
 
   v8::Isolate *isolate;
-  int flags = 0;
 
   int jsparser(const char *code, v8::Isolate *isolate)
   {
