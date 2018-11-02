@@ -10,7 +10,7 @@ require "file_utils"
 # v8_static_library = true
 
 @[Link(ldflags: " \
-  #{__DIR__}/../lib/jslib.o \
+  #{__DIR__}/../lib/glue.o \
   #{__DIR__}/../lib/libicui18n.so \
   #{__DIR__}/../lib/libv8_libplatform.so \
   #{__DIR__}/../lib/libicuuc.so \
