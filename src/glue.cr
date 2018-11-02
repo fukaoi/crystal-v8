@@ -26,7 +26,7 @@ end
 
 #!pp LibC.strlen("test")
 #!pp LibC.strlen("てすとだお")
-
+Say.init
 Say.run("new Date()")
 Say.run("new Date()")
 Say.run("new Date()")
@@ -44,5 +44,5 @@ Say.run("class Person {
 }; new Person('山田敬三').sayHello();")
 Say.run("const fn = function(a){return a * 999};fn(10)")
 Say.run("const fn = (a)=> {return a * 555};fn(10)")
-
+Say.finalyze
 
