@@ -51,7 +51,14 @@ int main(int argc, char *argv[])
   v8::Isolate* isolate = v8::Isolate::New(create_params);
   isolate->Enter();
   jslib("2 * 2", isolate);
+  jslib("2 * 2", isolate);
+  jslib("2 * 2", isolate);
   jslib("10 + 20", isolate);
+  jslib("10 + 20", isolate);
+  jslib("10 + 20", isolate);
+  jslib("10 + 20", isolate);
+  jslib("class Person {constructor(name) {this.name = name;}sayHello() {return ('Hello, Im ' + this.getName());}getName() {return this.name;}}; new Person('山田敬三').sayHello();", isolate);
+  jslib("class Person {constructor(name) {this.name = name;}sayHello() {return ('Hello, Im ' + this.getName());}getName() {return this.name;}}; new Person('山田敬三').sayHello();", isolate);
   jslib("class Person {constructor(name) {this.name = name;}sayHello() {return ('Hello, Im ' + this.getName());}getName() {return this.name;}}; new Person('山田敬三').sayHello();", isolate);
   // isolate->Dispose();
   v8::V8::Dispose();
