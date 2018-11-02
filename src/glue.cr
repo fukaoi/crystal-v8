@@ -19,17 +19,19 @@ require "file_utils"
   -lstdc++"
 )]
 lib Say
-  fun jslib(jscode : LibC::Char*) : Void
+  fun init : Void
+  fun run(jscode : LibC::Char*) : Void
+  fun finalyze : Void
 end
 
 #!pp LibC.strlen("test")
 #!pp LibC.strlen("てすとだお")
 
-Say.jslib("new Date()")
-Say.jslib("new Date()")
-Say.jslib("new Date()")
-Say.jslib("const a = 10;let b = 10;a + b;")
-Say.jslib("class Person {
+Say.run("new Date()")
+Say.run("new Date()")
+Say.run("new Date()")
+Say.run("const a = 10;let b = 10;a + b;")
+Say.run("class Person {
   constructor(name) {
     this.name = name;
   }
@@ -40,7 +42,7 @@ Say.jslib("class Person {
     return this.name;
   }
 }; new Person('山田敬三').sayHello();")
-Say.jslib("const fn = function(a){return a * 999};fn(10)")
-Say.jslib("const fn = (a)=> {return a * 555};fn(10)")
+Say.run("const fn = function(a){return a * 999};fn(10)")
+Say.run("const fn = (a)=> {return a * 555};fn(10)")
 
 
