@@ -20,7 +20,7 @@ require "file_utils"
 )]
 lib Say
   fun init : Void
-  fun run(jscode : LibC::Char*) : Void
+  fun run(code : LibC::Char*) : Void
   fun finalyze : Void
 end
 

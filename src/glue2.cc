@@ -10,6 +10,7 @@ extern "C"
 {
 
   v8::Isolate *isolate;
+  v8::Isolate::CreateParams create_params;
 
   void init() {
     // Initialize V8.
@@ -19,19 +20,15 @@ extern "C"
     v8::V8::InitializePlatform(platform.get());
     v8::V8::Initialize();
 
-    v8::Isolate::CreateParams create_params;
     create_params.array_buffer_allocator =
         v8::ArrayBuffer::Allocator::NewDefaultAllocator();
-      std::cout << "*** Created isolate ***" << std::endl;
     isolate = v8::Isolate::New(create_params);
     isolate->Enter();
-    delete create_params.array_buffer_allocator;
- 
   }
 
-  int jsparser(const char *code, v8::Isolate *isolate)
+  void run(const char *code)
   {
-    {
+    // {
       v8::Isolate::Scope isolate_scope(isolate);
       v8::HandleScope handle_scope(isolate);
       v8::Local<v8::Context> context = v8::Context::New(isolate);
@@ -47,18 +44,12 @@ extern "C"
       v8::Local<v8::Value> result = script->Run(context).ToLocalChecked();
       v8::String::Utf8Value utf8(isolate, result);
       printf("%s\n", *utf8);
-    }
-    return 0;
-  }
-
-  void run(char *code)
-  {
-    jsparser(code, isolate);
-
+    // }
   }
 
   void finalyze() {
     v8::V8::Dispose();
     v8::V8::ShutdownPlatform();
+    delete create_params.array_buffer_allocator;
   }
 }
