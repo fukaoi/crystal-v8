@@ -28,7 +28,7 @@ extern "C"
 
   void run(const char *code)
   {
-    // {
+    {
       v8::Isolate::Scope isolate_scope(isolate);
       v8::HandleScope handle_scope(isolate);
       v8::Local<v8::Context> context = v8::Context::New(isolate);
@@ -44,7 +44,7 @@ extern "C"
       v8::Local<v8::Value> result = script->Run(context).ToLocalChecked();
       v8::String::Utf8Value utf8(isolate, result);
       printf("%s\n", *utf8);
-    // }
+    }
   }
 
   void finalyze() {

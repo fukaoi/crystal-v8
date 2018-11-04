@@ -28,8 +28,6 @@ end
 #!pp LibC.strlen("てすとだお")
 Say.init
 Say.run("new Date()")
-Say.run("new Date()")
-Say.run("new Date()")
 Say.run("const a = 10;let b = 10;a + b;")
 Say.run("class Person {
   constructor(name) {
