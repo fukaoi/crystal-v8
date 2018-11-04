@@ -5,6 +5,7 @@
 #include <sstream>
 #include "libplatform/libplatform.h"
 #include "v8.h"
+#include "unistd.h"
 
 extern "C"
 {
@@ -13,6 +14,10 @@ extern "C"
 
   int jsparser(const char *code, v8::Isolate *isolate)
   {
+
+    v8::Locker locker(isolate);
+    isolate->Enter();
+    isolate = v8::Isolate::GetCurrent();
     {
       v8::Isolate::Scope isolate_scope(isolate);
       // Create a stack-allocated handle scope.
@@ -34,6 +39,7 @@ extern "C"
       v8::String::Utf8Value utf8(isolate, result);
       printf("%s\n", *utf8);
     }
+    isolate->Exit();
     return 0;
   }
 
@@ -54,12 +60,12 @@ extern "C"
       std::cout << "*** Created isolate ***" << std::endl;
       isolate = v8::Isolate::New(create_params);
     }
-    delete create_params.array_buffer_allocator;
-
     jsparser(code, isolate);
+    sleep(2);
 
     v8::V8::Dispose();
     v8::V8::ShutdownPlatform();
+    delete create_params.array_buffer_allocator;
   }
 
   void init() {}
