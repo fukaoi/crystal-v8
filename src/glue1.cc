@@ -13,15 +13,11 @@ extern "C"
 {
   int jsparser(const char *code, v8::Isolate *isolate)
   {
-
-    Locker locker(isolate);
-    isolate->Enter();
-    isolate = Isolate::GetCurrent();
-    Isolate::Scope isolate_scope(isolate);
-    HandleScope handle_scope(isolate);
-    Local<Context> context = Context::New(isolate);
-    Context::Scope context_scope(context);
     {
+      Isolate::Scope isolate_scope(isolate);
+      HandleScope handle_scope(isolate);
+      Local<Context> context = Context::New(isolate);
+      Context::Scope context_scope(context);
       Local<String> source =
           String::NewFromUtf8(isolate, code,
                               NewStringType::kNormal)
@@ -32,7 +28,6 @@ extern "C"
       String::Utf8Value utf8(isolate, result);
       printf("%s\n", *utf8);
     }
-    isolate->Exit();
     return 0;
   }
 
