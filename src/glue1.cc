@@ -23,7 +23,7 @@ extern "C"
       // Create a stack-allocated handle scope.
       v8::HandleScope handle_scope(isolate);
       v8::Local<v8::Context> context = v8::Context::New(isolate);
-
+      context->Enter();
       // Enter the context for compiling and running the hello world script.
       v8::Context::Scope context_scope(context);
       // Create a string containing the JavaScript source code.
@@ -38,6 +38,7 @@ extern "C"
       v8::Local<v8::Value> result = script->Run(context).ToLocalChecked();
       v8::String::Utf8Value utf8(isolate, result);
       printf("%s\n", *utf8);
+      context->Exit();
     }
     isolate->Exit();
     return 0;
