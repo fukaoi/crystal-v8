@@ -1,3 +1,3 @@
-extern  void init();
-extern void run(const char *code);
-extern void finalyze();
+void init();
+void run(char *code);
+void finalyze();

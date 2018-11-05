@@ -1,4 +1,5 @@
 #include <string.h>
+#include "glue.h"
 
 void main() {
   init();
