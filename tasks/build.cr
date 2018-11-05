@@ -35,9 +35,9 @@ class Build < LuckyCli::Task
 
   def cplus_build
     if self.@env == "test"
-      system("cd #{V8_DIR};  g++ -I. -Iinclude  ../../src/#{@file_name}.cc -fPIC -o ../../bin/#{@file_name} -L#{@gn_env_dir}/obj/ -lv8_monolith -pthread -std=c++0x")
+      system("cd #{V8_DIR};  g++ -g -I. -Iinclude  ../../src/#{@file_name}.cc -fPIC -o ../../bin/#{@file_name} -L#{@gn_env_dir}/obj/ -lv8_monolith -pthread -std=c++0x")
     else
-      system("cd #{V8_DIR};  g++ -I. -Iinclude -c ../../src/#{@file_name}.cc -fPIC -o ../../lib/#{@file_name}.o -L#{@gn_env_dir}/obj/ -pthread -std=c++0x")
+      system("cd #{V8_DIR};  g++ -g -I. -Iinclude -c ../../src/#{@file_name}.cc -fPIC -o ../../lib/#{@file_name}.o -L#{@gn_env_dir}/obj/ -pthread -std=c++0x")
     end
   end
 end
