@@ -10,7 +10,7 @@
 extern "C"
 {
 
-  v8::Isolate *isolate;
+  // v8::Isolate *isolate;
 
   int jsparser(const char *code, v8::Isolate *isolate)
   {
@@ -55,14 +55,8 @@ extern "C"
     v8::Isolate::CreateParams create_params;
     create_params.array_buffer_allocator =
         v8::ArrayBuffer::Allocator::NewDefaultAllocator();
-    if (!isolate)
-    {
-      std::cout << "*** Created isolate ***" << std::endl;
-      isolate = v8::Isolate::New(create_params);
-    }
+    static v8::Isolate *isolate = v8::Isolate::New(create_params);
     jsparser(code, isolate);
-    sleep(2);
-
     v8::V8::Dispose();
     v8::V8::ShutdownPlatform();
     delete create_params.array_buffer_allocator;
