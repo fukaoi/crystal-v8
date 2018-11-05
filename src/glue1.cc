@@ -17,14 +17,14 @@ extern "C"
     Locker locker(isolate);
     isolate->Enter();
     isolate = Isolate::GetCurrent();
+    Isolate::Scope isolate_scope(isolate);
+    HandleScope handle_scope(isolate);
+    Local<Context> context = Context::New(isolate);
+    Context::Scope context_scope(context);
     {
-      Isolate::Scope isolate_scope(isolate);
-      HandleScope handle_scope(isolate);
-      auto context = Context::New(isolate);
-      Context::Scope context_scope(context);
       Local<String> source =
           String::NewFromUtf8(isolate, code,
-                                  NewStringType::kNormal)
+                              NewStringType::kNormal)
               .ToLocalChecked();
       Local<Script> script =
           v8::Script::Compile(context, source).ToLocalChecked();
@@ -36,7 +36,7 @@ extern "C"
     return 0;
   }
 
-  void run(char *code)
+  void run(const char *code)
   {
     V8::InitializeICUDefaultLocation("./bin/glue");
     V8::InitializeExternalStartupData("./bin/glue");
@@ -55,5 +55,5 @@ extern "C"
   }
 
   void init() {}
-  void finalyze(){}
+  void finalyze() {}
 }
