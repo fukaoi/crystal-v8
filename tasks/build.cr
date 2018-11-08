@@ -17,6 +17,9 @@ class Build < LuckyCli::Task
     when "test"
       @gn_env_dir = GN_TEST_DIR
       @file_name = V8_TEST_RAPPER
+    when "process"
+      @gn_env_dir = GN_PROCESS_DIR
+      @file_name = V8_PROCESS_RAPPER
     else
       raise Exception.new("No match enviroment value: #{ENV["LUCKY_ENV"]}")
     end
@@ -34,7 +37,7 @@ class Build < LuckyCli::Task
   end
 
   def cplus_build
-    if self.@env == "test"
+    if self.@env == "test" || self.@env == "process"
       system("cd #{V8_DIR};  g++ -g -I. -Iinclude  ../../src/#{@file_name}.cc -fPIC -o ../../bin/#{@file_name} -L#{@gn_env_dir}/obj/ -lv8_monolith -pthread -std=c++0x")
     else
       system("cd #{V8_DIR};  g++ -g -I. -Iinclude -c ../../src/#{@file_name}.cc -fPIC -o ../../lib/#{@file_name}.o -L#{@gn_env_dir}/obj/ -pthread -std=c++0x")
@@ -48,7 +51,7 @@ class FullBuild < Build
   def call
     system("cd ./#{V8_DIR}; ./tools/dev/v8gen.py ./#{self.@gn_env_dir}")
     system("cd ./#{V8_DIR}; gn args ./#{self.@gn_env_dir}")
-    if self.@env == "test"
+    if self.@env == "test" || self.@env == "process"
       system("cd ./#{V8_DIR}; ninja -C #{self.@gn_env_dir} v8_monolith")
       self.cplus_build
     else
