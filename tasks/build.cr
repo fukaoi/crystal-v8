@@ -23,6 +23,9 @@ class Build < LuckyCli::Task
     when "process"
       @gn_env_dir = GN_PROCESS_DIR
       @file_name = V8_PROCESS_RAPPER
+    when "v8wrapper"
+      @gn_env_dir = GN_WRAPPER_DIR
+      @file_name = V8_WRAPPER
     else
       raise Exception.new("No match enviroment value: #{ENV["LUCKY_ENV"]}")
     end
