@@ -50,6 +50,7 @@ class Demo
 public:
   Isolate *isolate;
   Isolate::CreateParams create_params;
+  Persistent<Context> context;
 
   Demo()
   {
@@ -64,10 +65,10 @@ public:
 
   ~Demo()
   {
-    // isolate->Dispose();
-    // V8::Dispose();
-    // V8::ShutdownPlatform();
-    // delete create_params.array_buffer_allocator;
+    isolate->Dispose();
+    V8::Dispose();
+    V8::ShutdownPlatform();
+    delete create_params.array_buffer_allocator;
   }
 
   void exec(const char *code)
