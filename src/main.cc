@@ -11,11 +11,6 @@ Isolate *isolate;
 Isolate::CreateParams create_params;
 Local<Context> context;
 
-void init()
-{
-  V8::Initialize();
-}
-
 void deinit()
 {
   // isolate->Dispose();
@@ -26,6 +21,10 @@ void deinit()
 
 void run(const char *code)
 {
+
+  Isolate::Scope isolate_scope(isolate);
+  HandleScope handle_scope(isolate);
+  context = Context::New(isolate);
   isolate->Enter();
   isolate = Isolate::GetCurrent();
   {
@@ -45,32 +44,20 @@ void run(const char *code)
   isolate->Exit();
 }
 
-int count = 0;
-void scope(const char* code)
-{
-  if (count == 0) {
-    count++;
-    init();
-    std::unique_ptr<Platform> platform = platform::NewDefaultPlatform();
-    V8::InitializePlatform(platform.get());
-    create_params.array_buffer_allocator =
-        ArrayBuffer::Allocator::NewDefaultAllocator();
-    isolate = Isolate::New(create_params);
-    Isolate::Scope isolate_scope(isolate);
-    HandleScope handle_scope(isolate);
-    context = Context::New(isolate);
-  }
-  run(code);
-}
-
 int main(int argc, char *argv[])
 {
-  scope("-100 * -1000");
-  scope("var i = 1;while (i < 1000000) {i++;-100*9;}");
-  scope("2 * 2");
-  scope("10 + 20");
-  scope("0.2 * 0.08");
-  scope("class Person {constructor(name) {this.name = name;}sayHello() {return ('Hello, Im ' + this.getName());}getName() {return this.name;}}; new Person('山田敬三').sayHello();");
+  V8::Initialize();
+  std::unique_ptr<Platform> platform = platform::NewDefaultPlatform();
+  V8::InitializePlatform(platform.get());
+  create_params.array_buffer_allocator =
+      ArrayBuffer::Allocator::NewDefaultAllocator();
+  isolate = Isolate::New(create_params);
+
+  run("-100 * -1000");
+  run("var i = 1;while (i < 1000000) {i++;-100*9;}");
+  run("const i = 100;i - (-99999999)");
+  run("10 + 20");
+  run("0.2 * 0.08");
 
   deinit();
   return 0;
