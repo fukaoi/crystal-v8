@@ -12,11 +12,11 @@ class Build < LuckyCli::Task
     libv8_libbase.so
     libv8_libplatform.so
     libv8.so
-    libc++.so
   )
 
   def initialize
     return if ARGV != ["build"] && ARGV != ["full_build"]
+
     case ENV["LUCKY_ENV"]
     when "release"
       @gn_env_dir = GN_RELEASE_DIR
@@ -28,12 +28,7 @@ class Build < LuckyCli::Task
       @gn_env_dir = GN_TEST_DIR
       @file_name = V8_TEST
     else
-      unless ENV["LUCKY_ENV"]
-        @gn_env_dir = GN_TEST_DIR
-        @file_name = V8_TEST
-      else
-        raise Exception.new("No match enviroment value: #{ENV["LUCKY_ENV"]}")
-      end
+      raise Exception.new("No match enviroment value: #{ENV["LUCKY_ENV"]}")
     end
     @env = ENV["LUCKY_ENV"]
   end
