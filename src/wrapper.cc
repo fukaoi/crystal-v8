@@ -1,8 +1,4 @@
-#include <stdlib.h>
-#include <string.h>
-#include <iostream>
-#include <libplatform/libplatform.h>
-#include <v8.h>
+#include "wrapper.h"
 
 using namespace std;
 using namespace v8;
@@ -11,12 +7,12 @@ static Platform *m_platform;
 static Isolate *isolate;
 static Persistent<v8::Context> context;
 
-extern "C" bool init_icu(const char* external_file_path) {
+bool init_icu(const char* external_file_path) {
   V8::InitializeICU(external_file_path);
   V8::InitializeExternalStartupData(external_file_path);
 }
 
-extern "C" void init()
+void init()
 {
   class Allocator : public ArrayBuffer::Allocator
   {
@@ -44,7 +40,7 @@ extern "C" void init()
   context.Reset(isolate, Context::New(isolate));
 }
 
-extern "C" void destroy()
+void destroy()
 {
   isolate->Dispose();
   V8::Dispose();
@@ -52,7 +48,7 @@ extern "C" void destroy()
   delete m_platform;
 }
 
-extern "C" void eval(const char *src)
+void eval(const char *src)
 {
   Isolate::Scope isolate_scope(isolate);
   HandleScope handle_scope(isolate);
