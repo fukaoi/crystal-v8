@@ -35,7 +35,12 @@ class Build < LuckyCli::Task
   end
 
   def cplus_build
-      system("cd #{V8_DIR};  g++ -g -I. -Iinclude -c ../../src/wrapper.cc -fPIC -o ../../bin/#{@file_name} -L#{@gn_env_dir}/obj/ -lv8_monolith -pthread -std=c++0x")
+      system("cd #{V8_DIR};
+      g++ -I. -Iinclude \
+      -c ../../src/wrapper.cc \
+      -o ../../bin/#{@file_name} \
+      -L#{@gn_env_dir}/obj/ -lv8_monolith \
+      -fPIC -pthread -std=c++0x -g")
   end
 end
 
