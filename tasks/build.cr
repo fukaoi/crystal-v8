@@ -5,7 +5,15 @@ class Build < LuckyCli::Task
   banner "Build C++, Crystal program files"
   @gn_env_dir : String
   @file_name : String
-  @need_libs = %w(libicui18n.so libicuuc.so libv8_libbase.so libv8_libplatform.so libv8.so)
+  @need_libs =
+  %w(
+    libicui18n.so
+    libicuuc.so
+    libv8_libbase.so
+    libv8_libplatform.so
+    libv8.so
+    libc++.so
+  )
 
   def initialize
     return if ARGV != ["build"] && ARGV != ["full_build"]
@@ -38,8 +46,9 @@ class Build < LuckyCli::Task
 
   def crystal_build
     @need_libs.each{|so| FileUtils.cp("#{V8_DIR}/#{@gn_env_dir}/#{so}", "lib/#{so}")}
-    system("crystal build -d #{ENV["PWD"]}/src/#{get_target_main} -o bin/#{@file_name}")
-    system("chmod 755 bin/#{@file_name}")
+    if system("crystal build -d #{ENV["PWD"]}/src/#{get_target_main} -o bin/#{@file_name}")
+      system("chmod 755 bin/#{@file_name}")
+    end
   end
 
   def cplus_build
