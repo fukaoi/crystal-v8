@@ -1,10 +1,11 @@
 @[Link(ldflags: " \
-  #{__DIR__}/../lib/libv8_wrapper.so \
-  #{__DIR__}/../lib/libicui18n.so \
-  #{__DIR__}/../lib/libv8_libplatform.so \
-  #{__DIR__}/../lib/libicuuc.so \
-  #{__DIR__}/../lib/libv8_libbase.so \
-  #{__DIR__}/../lib/libv8.so \
+  -lv8_wrapper \
+  -licui18n \
+  -lv8_libplatform \
+  -licuuc \
+  -lv8_libbase \
+  -lv8 \
+  -L#{__DIR__}/../lib \
   -lstdc++"
 )]
 
