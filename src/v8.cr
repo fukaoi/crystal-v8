@@ -30,6 +30,6 @@ JS.eval("class Person {
   }
 }; new Person('山田敬三').JSHello();")
 JS.eval("const fn = function(a){return a * 999};fn(10)")
-JS.eval("function exe(a) {return a * 555};exec(10)}")
+JS.eval("function exec(a) {return a * 555};exec(10)")
 JS.destroy
 
