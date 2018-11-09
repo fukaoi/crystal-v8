@@ -1,11 +1,10 @@
 require "./defined"
 
 class Clean < LuckyCli::Task
-  banner "clean up bin/* and shared library"
+  banner "clean up bin/*"
   BIN_RM = "rm -r bin/*"
 
   def call
-    get_v8_shared_object.each { |so| FileUtils.rm(so) }
     unless system(BIN_RM)
       puts "Failed clean up"
     else
@@ -15,7 +14,7 @@ class Clean < LuckyCli::Task
 end
 
 class FullClean < LuckyCli::Task
-  banner "clean up bin/* and v8/ and shared library"
+  banner "clean up bin/* and v8/"
 
   def call
     Clean.new.call

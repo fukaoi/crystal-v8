@@ -18,6 +18,6 @@ class Run < LuckyCli::Task
   end
 
   def call
-    system("./bin/#{@wrapper}")
+    system("LD_LIBRARY_PATH=`pwd`/src/ext ./bin/#{@wrapper}")
   end
 end
