@@ -1,7 +1,7 @@
 require "file_utils"
 
 @[Link(ldflags: " \
-  #{__DIR__}/../lib/v8wrapper.o \
+  #{__DIR__}/../lib/wrapper.o \
   #{__DIR__}/../lib/libicui18n.so \
   #{__DIR__}/../lib/libv8_libplatform.so \
   #{__DIR__}/../lib/libicuuc.so \
@@ -9,6 +9,7 @@ require "file_utils"
   #{__DIR__}/../lib/libv8.so \
   -lstdc++"
 )]
+
 lib JS
   fun init : Void
   fun eval(code : LibC::Char*) : Void

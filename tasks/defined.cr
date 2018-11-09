@@ -3,9 +3,9 @@ DEPOT_DIR   = "#{TOOLS_DIR}/depot_tools"
 V8_DIR      = "#{TOOLS_DIR}/v8"
 LIBRARY_DIR = "lib"
 
-GN_RELEASE_DIR     = "out.gn/x64.release.sample"
-GN_DEVELOPMENT_DIR = "out.gn/x64.release.sample"
-GN_TEST_DIR       = "out.gn/x64.release.sample"
+GN_RELEASE_DIR     = "out.gn/x64.debug"
+GN_DEVELOPMENT_DIR = "out.gn/x64.debug"
+GN_TEST_DIR        = "out.gn/x64.debug"
 
 
 V8_RELEASR     = "v8_release"

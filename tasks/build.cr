@@ -1,9 +1,11 @@
 require "./defined"
+require "file_utils"
 
 class Build < LuckyCli::Task
   banner "Build C++, Crystal program files"
   @gn_env_dir : String
   @file_name : String
+  @need_libs = %w(libicui18n.so libicuuc.so libv8_libbase.so libv8_libplatform.so libv8.so)
 
   def initialize
     return if ARGV != ["build"] && ARGV != ["full_build"]
@@ -30,17 +32,19 @@ class Build < LuckyCli::Task
   end
 
   def crystal_build
+    @need_libs.each{|so| FileUtils.cp("#{V8_DIR}/#{@gn_env_dir}/#{so}", "lib/#{so}")}
     system("crystal build #{ENV["PWD"]}/#{get_target_main} -o bin/#{@file_name}")
     system("chmod 755 bin/#{@file_name}")
   end
 
   def cplus_build
-      system("cd #{V8_DIR};
-      g++ -I. -Iinclude \
-      -c ../../src/wrapper.cc \
-      -o ../../bin/#{@file_name} \
-      -L#{@gn_env_dir}/obj/ -lv8_monolith \
-      -fPIC -pthread -std=c++0x -g")
+      system(
+        "cd #{V8_DIR}; \
+        g++ -I. -Iinclude -static \
+        -c ../../src/wrapper.cc \
+        -o ../../lib/wrapper.o \
+        -L#{@gn_env_dir}/obj/ -fPIC -pthread -std=c++0x -g"
+      )
   end
 end
 
@@ -62,6 +66,7 @@ end
 # target_cpu = "x64"
 # use_custom_libcxx = false
 # v8_monolithic = true
+# cc_wrapper = "ccache"
 # v8_use_external_startup_data = false
 
 #### development ####
