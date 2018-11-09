@@ -51,8 +51,8 @@ class Build < LuckyCli::Task
         "cd #{V8_DIR}; \
         g++ -I. -Iinclude \
         -c ../../src/#{get_target_lib} \
-        -o ../../lib/wrapper.o \
-        -L#{@gn_env_dir}/obj/ -fPIC -pthread -std=c++0x -g"
+        -o ../../lib/libv8_wrapper.so \
+        -L#{@gn_env_dir}/obj/ -fPIC -pthread -std=c++0x -g -shared"
       )
   end
 end
@@ -62,10 +62,24 @@ class FullBuild < Build
 
   def call
     system("cd ./#{V8_DIR}; ./tools/dev/v8gen.py ./#{self.@gn_env_dir}")
-    system("cd ./#{V8_DIR}; gn args ./#{self.@gn_env_dir}")
+    system("cd ./#{V8_DIR}; gn gen ./#{self.@gn_env_dir} #{create_gn_args}")
     system("cd ./#{V8_DIR}; ninja -C #{self.@gn_env_dir}")
     self.cplus_build
     puts "full_build done."
+  end
+
+  private def create_gn_args
+    <<-ARGS
+    --args='is_debug=true \
+            target_cpu="x64" \
+            v8_static_library=true \
+            is_component_build=true \
+            is_debug=true \
+            target_cpu="x64"\
+            use_custom_libcxx=false \
+            v8_monolithic=false \
+            v8_use_external_startup_data=false'
+    ARGS
   end
 end
 
