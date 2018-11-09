@@ -3,30 +3,23 @@ DEPOT_DIR   = "#{TOOLS_DIR}/depot_tools"
 V8_DIR      = "#{TOOLS_DIR}/v8"
 LIBRARY_DIR = "lib"
 
-GN_RELEASE_DIR     = "out.gn/x64.release"
-GN_DEVELOPMENT_DIR = "out.gn/x64.debug"
-GN_WRAPPER_DIR     = "out.gn/x64.debug"
-GN_TEST_DIR        = "out.gn/x64.release.sample"
-GN_MAIN2_DIR       = "out.gn/x64.release.sample"
-GN_PROCESS_DIR     = "out.gn/x64.release.sample"
+GN_RELEASE_DIR     = "out.gn/x64.release.sample"
+GN_DEVELOPMENT_DIR = "out.gn/x64.release.sample"
+GN_TEST_DIR       = "out.gn/x64.release.sample"
 
 
-V8_RELEASR_RAPPER     = "v8_glue"
-V8_DEVELOPMENT_RAPPER = "glue"
-V8_TEST_RAPPER        = "main"
-V8_MAIN2_RAPPER       = "main2"
-V8_PROCESS_RAPPER     = "process"
-V8_WRAPPER            = "v8wrapper"
+V8_RELEASR     = "v8_release"
+V8_DEVELOPMENT = "v8_developemnt"
+V8_TEST        = "v8_test"
 
 def set_env
   ENV["PATH"] += ":#{ENV["PWD"]}/#{DEPOT_DIR}"
   ENV["LD_LIBRARY_PATH"] = "#{ENV["PWD"]}/#{LIBRARY_DIR}"
-  # export LD_LIBRARY_PATH=`pwd`/lib
 end
 
 set_env
 
-def get_project_name
+def get_target_main
   # todo: extract shard.yml
-  "v8wrapper"
+  "src/v8.cr"
 end

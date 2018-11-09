@@ -10,22 +10,13 @@ class Build < LuckyCli::Task
     case ENV["LUCKY_ENV"]
     when "release"
       @gn_env_dir = GN_RELEASE_DIR
-      @file_name = V8_RELEASR_RAPPER
+      @file_name = V8_RELEASR
     when "development"
       @gn_env_dir = GN_DEVELOPMENT_DIR
-      @file_name = V8_DEVELOPMENT_RAPPER
+      @file_name = V8_DEVELOPMENT
     when "test"
       @gn_env_dir = GN_TEST_DIR
-      @file_name = V8_TEST_RAPPER
-    when "main2"
-      @gn_env_dir = GN_MAIN2_DIR
-      @file_name = V8_MAIN2_RAPPER
-    when "process"
-      @gn_env_dir = GN_PROCESS_DIR
-      @file_name = V8_PROCESS_RAPPER
-    when "v8wrapper"
-      @gn_env_dir = GN_WRAPPER_DIR
-      @file_name = V8_WRAPPER
+      @file_name = V8_TEST
     else
       raise Exception.new("No match enviroment value: #{ENV["LUCKY_ENV"]}")
     end
@@ -39,15 +30,12 @@ class Build < LuckyCli::Task
   end
 
   def crystal_build
-    system("crystal build #{ENV["PWD"]}/src/#{get_project_name}.cr -o bin/#{get_project_name}")
+    system("crystal build #{ENV["PWD"]}/#{get_target_main} -o bin/#{@file_name}")
+    system("chmod 755 bin/#{@file_name}")
   end
 
   def cplus_build
-    if self.@env == "test" || self.@env == "process" || self.@env == "main2"
-      system("cd #{V8_DIR};  g++ -g -I. -Iinclude  ../../src/#{@file_name}.cc -fPIC -o ../../bin/#{@file_name} -L#{@gn_env_dir}/obj/ -lv8_monolith -pthread -std=c++0x")
-    else
-      system("cd #{V8_DIR};  g++ -g -I. -Iinclude -c ../../src/#{@file_name}.cc -fPIC -o ../../lib/#{@file_name}.o -L#{@gn_env_dir}/obj/ -pthread -std=c++0x")
-    end
+      system("cd #{V8_DIR};  g++ -g -I. -Iinclude -c ../../src/wrapper.cc -fPIC -o ../../bin/#{@file_name} -L#{@gn_env_dir}/obj/ -lv8_monolith -pthread -std=c++0x")
   end
 end
 
@@ -57,15 +45,8 @@ class FullBuild < Build
   def call
     system("cd ./#{V8_DIR}; ./tools/dev/v8gen.py ./#{self.@gn_env_dir}")
     system("cd ./#{V8_DIR}; gn args ./#{self.@gn_env_dir}")
-    if self.@env == "test" || self.@env == "process" || self.@env == "main2"
-      system("cd ./#{V8_DIR}; ninja -C #{self.@gn_env_dir} v8_monolith")
-      self.cplus_build
-    else
-      system("cd ./#{V8_DIR}; ninja -C #{self.@gn_env_dir}")
-      system("cp -r #{V8_DIR}/#{self.@gn_env_dir}/lib*.so ./#{LIBRARY_DIR}")
-      self.cplus_build
-      self.crystal_build
-    end
+    system("cd ./#{V8_DIR}; ninja -C #{self.@gn_env_dir} v8_monolith")
+    self.cplus_build
     puts "full_build done."
   end
 end

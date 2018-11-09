@@ -7,13 +7,11 @@ class Run < LuckyCli::Task
     return if ARGV != ["run"]
     case ENV["LUCKY_ENV"]
     when "release"
-      @wrapper = V8_RELEASR_RAPPER
+      @wrapper = V8_RELEASR
     when "development"
-      @wrapper = V8_DEVELOPMENT_RAPPER
+      @wrapper = V8_DEVELOPMENT
     when "test"
-      @wrapper = V8_TEST_RAPPER
-    when "v8wrapper"
-      @wrapper = V8_WRAPPER
+      @wrapper = V8_TEST
     else
       raise Exception.new("No match enviroment value: #{ENV["LUCKY_ENV"]}")
     end
