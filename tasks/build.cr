@@ -5,6 +5,7 @@ class Build < LuckyCli::Task
   banner "Build C++, Crystal program files"
   @gn_env_dir : String
   @file_name : String
+  @compile_option : String
   @need_libs =
   %w(
     libicui18n.so
@@ -21,12 +22,15 @@ class Build < LuckyCli::Task
     when "release"
       @gn_env_dir = GN_RELEASE_DIR
       @file_name = V8_RELEASR
+      @compile_option = ""
     when "development"
       @gn_env_dir = GN_DEVELOPMENT_DIR
       @file_name = V8_DEVELOPMENT
+      @compile_option = ""
     when "test"
       @gn_env_dir = GN_TEST_DIR
       @file_name = V8_TEST
+      @compile_option = "-g"
     else
       raise Exception.new("No match enviroment value: #{ENV["LUCKY_ENV"]}")
     end
@@ -52,7 +56,7 @@ class Build < LuckyCli::Task
         g++ -I. -Iinclude \
         -c ../../src/#{get_target_lib} \
         -o ../../lib/libv8_wrapper.so \
-        -L#{@gn_env_dir}/obj/ -fPIC -pthread -std=c++0x -g -shared"
+        -L#{@gn_env_dir}/obj/ -fPIC -pthread -std=c++0x -shared #{@compile_option}"
       )
   end
 end
