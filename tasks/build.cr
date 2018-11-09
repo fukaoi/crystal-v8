@@ -33,14 +33,14 @@ class Build < LuckyCli::Task
 
   def crystal_build
     @need_libs.each{|so| FileUtils.cp("#{V8_DIR}/#{@gn_env_dir}/#{so}", "lib/#{so}")}
-    system("crystal build #{ENV["PWD"]}/#{get_target_main} -o bin/#{@file_name}")
+    system("crystal build -d #{ENV["PWD"]}/#{get_target_main} -o bin/#{@file_name}")
     system("chmod 755 bin/#{@file_name}")
   end
 
   def cplus_build
       system(
         "cd #{V8_DIR}; \
-        g++ -I. -Iinclude -static \
+        g++ -I. -Iinclude \
         -c ../../src/wrapper.cc \
         -o ../../lib/wrapper.o \
         -L#{@gn_env_dir}/obj/ -fPIC -pthread -std=c++0x -g"

@@ -1,5 +1,3 @@
-require "file_utils"
-
 @[Link(ldflags: " \
   #{__DIR__}/../lib/wrapper.o \
   #{__DIR__}/../lib/libicui18n.so \
