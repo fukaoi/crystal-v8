@@ -3,19 +3,6 @@ require "file_utils"
 
 class Build < LuckyCli::Task
   banner "Build C++, Crystal program files"
-  @gn_env_dir : String
-  @file_name : String
-  @cplus_option : String
-  @crytal_option : String
-
-  @need_libs =
-    %w(
-      libicui18n.so
-      libicuuc.so
-      libv8_libbase.so
-      libv8_libplatform.so
-      libv8.so
-    )
 
   def initialize
     return if ARGV != ["build"] && ARGV != ["full_build"]
@@ -49,7 +36,7 @@ class Build < LuckyCli::Task
   end
 
   def crystal_build
-    @need_libs.each { |so| FileUtils.cp("#{V8_DIR}/#{@gn_env_dir}/#{so}", "lib/#{so}") }
+    get_v8_shared_object.each { |so| FileUtils.cp("#{V8_DIR}/#{@gn_env_dir}/#{so}", "lib/#{so}") }
     if system(
       <<-CMD
          crystal build #{@crytal_option} \

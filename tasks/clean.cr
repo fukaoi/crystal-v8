@@ -2,9 +2,10 @@ require "./defined"
 
 class Clean < LuckyCli::Task
   banner "clean up bin/* and shared library"
-  BIN_RM = "rm -r bin/* && rm -r lib/*.so && rm -r lib/*.o"
+  BIN_RM = "rm -r bin/*"
 
   def call
+    get_v8_shared_object.each { |so| FileUtils.rm(so) }
     unless system(BIN_RM)
       puts "Failed clean up"
     else

@@ -33,3 +33,13 @@ def get_target_lib
   end
   yaml["targets"]["v8"]["lib"]
 end
+
+def get_v8_shared_object
+    %w(
+      libicui18n.so
+      libicuuc.so
+      libv8_libbase.so
+      libv8_libplatform.so
+      libv8.so
+    )
+end
