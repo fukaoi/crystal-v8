@@ -1,3 +1,5 @@
+require "yaml"
+
 TOOLS_DIR   = "tools"
 DEPOT_DIR   = "#{TOOLS_DIR}/depot_tools"
 V8_DIR      = "#{TOOLS_DIR}/v8"
@@ -20,6 +22,15 @@ end
 set_env
 
 def get_target_main
-  # todo: extract shard.yml
-  "src/v8.cr"
+  yaml = File.open("shard.yml") do |file|
+    YAML.parse(file)
+  end
+  yaml["targets"]["main"]
+end
+
+def get_target_lib
+  yaml = File.open("shard.yml") do |file|
+    YAML.parse(file)
+  end
+  yaml["targets"]["lib"]
 end

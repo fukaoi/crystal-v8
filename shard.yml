@@ -5,8 +5,8 @@ authors:
   - fukaoi 
 
 targets:
-  v8:
-    main: src/v8.cr
+    main: v8.cr
+    lib: wrapper.cc
 
 crystal: 0.25.1
 
