@@ -5,6 +5,7 @@ authors:
   - fukaoi 
 
 targets:
+  v8:
     main: v8.cr
     lib: wrapper.cc
 

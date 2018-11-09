@@ -25,12 +25,12 @@ def get_target_main
   yaml = File.open("shard.yml") do |file|
     YAML.parse(file)
   end
-  yaml["targets"]["main"]
+  yaml["targets"]["v8"]["main"]
 end
 
 def get_target_lib
   yaml = File.open("shard.yml") do |file|
     YAML.parse(file)
   end
-  yaml["targets"]["lib"]
+  yaml["targets"]["v8"]["lib"]
 end

@@ -20,7 +20,12 @@ class Build < LuckyCli::Task
       @gn_env_dir = GN_TEST_DIR
       @file_name = V8_TEST
     else
-      raise Exception.new("No match enviroment value: #{ENV["LUCKY_ENV"]}")
+      unless ENV["LUCKY_ENV"]
+        @gn_env_dir = GN_TEST_DIR
+        @file_name = V8_TEST
+      else
+        raise Exception.new("No match enviroment value: #{ENV["LUCKY_ENV"]}")
+      end
     end
     @env = ENV["LUCKY_ENV"]
   end
@@ -54,22 +59,21 @@ class FullBuild < Build
   def call
     system("cd ./#{V8_DIR}; ./tools/dev/v8gen.py ./#{self.@gn_env_dir}")
     system("cd ./#{V8_DIR}; gn args ./#{self.@gn_env_dir}")
-    system("cd ./#{V8_DIR}; ninja -C #{self.@gn_env_dir} v8_monolith")
+    system("cd ./#{V8_DIR}; ninja -C #{self.@gn_env_dir}")
     self.cplus_build
     puts "full_build done."
   end
 end
 
 # ### test ####
-# is_component_build = false
+# cc_wrapper = "ccache"
+# v8_static_library = true
+# is_component_build = true
 # is_debug = true
 # target_cpu = "x64"
-# use_custom_libcxx = false
-# v8_monolithic = true
-# cc_wrapper = "ccache"
-# v8_use_external_startup_data = false
 
 #### development ####
+# cc_wrapper = "ccache"
 # v8_static_library = true
 # is_component_build = true
 # is_debug = true

@@ -1,10 +1,14 @@
-# duk-js
+# v8.cr
 
-TODO: Write a description here
+  V8 Javascript engine for Crystal.
 
 ## Installation
 
-TODO: Write installation instructions here
+```bash
+shards install
+
+lucky install
+```
 
 ## Usage
 

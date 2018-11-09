@@ -13,7 +13,11 @@ class Run < LuckyCli::Task
     when "test"
       @wrapper = V8_TEST
     else
-      raise Exception.new("No match enviroment value: #{ENV["LUCKY_ENV"]}")
+      unless ENV["LUCKY_ENV"]
+        @wrapper = V8_TEST
+      else
+        raise Exception.new("No match enviroment value: #{ENV["LUCKY_ENV"]}")
+      end
     end
   end
 
