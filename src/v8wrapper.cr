@@ -10,12 +10,12 @@ require "file_utils"
   -lstdc++"
 )]
 lib JS
-  fun init(path : LibC::Char*) : Void
+  fun init : Void
   fun eval(code : LibC::Char*) : Void
   fun destroy : Void
 end
 
-JS.init("./bin/v8wrapper")
+JS.init
 JS.eval("new Date()")
 JS.eval("const a = 10;let b = 10;a + b;")
 JS.eval("class Person {
@@ -30,6 +30,6 @@ JS.eval("class Person {
   }
 }; new Person('山田敬三').JSHello();")
 JS.eval("const fn = function(a){return a * 999};fn(10)")
-JS.eval("const fn2 = (a)=> {return a * 555};fn2(10)")
+JS.eval("function exe(a) {return a * 555};exec(10)}")
 JS.destroy
 

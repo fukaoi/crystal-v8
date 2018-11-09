@@ -8,11 +8,15 @@ using namespace std;
 using namespace v8;
 
 static Platform *m_platform;
-
 static Isolate *isolate;
 static Persistent<v8::Context> context;
 
-extern "C" void init(const char *path)
+extern "C" bool init_icu(const char* external_file_path) {
+  V8::InitializeICU(external_file_path);
+  V8::InitializeExternalStartupData(external_file_path);
+}
+
+extern "C" void init()
 {
   class Allocator : public ArrayBuffer::Allocator
   {
@@ -26,15 +30,10 @@ extern "C" void init(const char *path)
       delete[] static_cast<char *>(data);
     }
   };
-
-  V8::InitializeICU(path);
-  V8::InitializeExternalStartupData(path);
-
+ 
   m_platform = platform::CreateDefaultPlatform();
   V8::InitializePlatform(m_platform);
   V8::Initialize();
-
-  V8::InitializeExternalStartupData(path);
 
   Isolate::CreateParams create_params;
   create_params.array_buffer_allocator = new Allocator();
