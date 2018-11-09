@@ -9,13 +9,13 @@ class Build < LuckyCli::Task
   @crytal_option : String
 
   @need_libs =
-  %w(
-    libicui18n.so
-    libicuuc.so
-    libv8_libbase.so
-    libv8_libplatform.so
-    libv8.so
-  )
+    %w(
+      libicui18n.so
+      libicuuc.so
+      libv8_libbase.so
+      libv8_libplatform.so
+      libv8.so
+    )
 
   def initialize
     return if ARGV != ["build"] && ARGV != ["full_build"]
@@ -49,24 +49,23 @@ class Build < LuckyCli::Task
   end
 
   def crystal_build
-    @need_libs.each{|so| FileUtils.cp("#{V8_DIR}/#{@gn_env_dir}/#{so}", "lib/#{so}")}
+    @need_libs.each { |so| FileUtils.cp("#{V8_DIR}/#{@gn_env_dir}/#{so}", "lib/#{so}") }
     if system(
-      "crystal build #{@crytal_option} \
-       #{ENV["PWD"]}/src/#{get_target_main} \
+         "crystal build #{@crytal_option} #{ENV["PWD"]}/src/#{get_target_main} \
        -o bin/#{@file_name}"
-      )
+       )
       system("chmod 755 bin/#{@file_name}")
     end
   end
 
   def cplus_build
-      system(
-        "cd #{V8_DIR}; \
+    system(
+      "cd #{V8_DIR}; \
         g++ -I. -Iinclude \
         -c ../../src/#{get_target_lib} \
         -o ../../lib/libv8_wrapper.so \
         -L#{@gn_env_dir}/obj/ -fPIC -pthread -std=c++0x -shared #{@cplus_option}"
-      )
+    )
   end
 end
 
@@ -103,7 +102,7 @@ end
 # is_debug = true
 # target_cpu = "x64"
 
-#### development ####
+# ### development ####
 # cc_wrapper = "ccache"
 # v8_static_library = true
 # is_component_build = true

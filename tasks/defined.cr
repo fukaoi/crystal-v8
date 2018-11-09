@@ -9,7 +9,6 @@ GN_RELEASE_DIR     = "out.gn/x64.debug"
 GN_DEVELOPMENT_DIR = "out.gn/x64.debug"
 GN_TEST_DIR        = "out.gn/x64.debug"
 
-
 V8_RELEASR     = "v8_release"
 V8_DEVELOPMENT = "v8_developemnt"
 V8_TEST        = "v8_test"
