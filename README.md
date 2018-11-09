@@ -28,4 +28,4 @@ TODO: Write development instructions here
 
 ## Contributors
 
-- [your-github-user](https://github.com/your-github-user) fukaoi - creator, maintainer
+- [fukaoi](https://github.com/fukaoi) fukaoi - creator, maintainer
