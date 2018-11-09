@@ -1,35 +1,24 @@
-@[Link(ldflags: " \
-  -lv8_wrapper \
-  -licui18n \
-  -lv8_libplatform \
-  -licuuc \
-  -lv8_libbase \
-  -lv8 \
-  -L#{__DIR__}/../lib \
-  -lstdc++"
-)]
-
-lib JS
+lib V8
   fun init : Void
   fun eval(code : LibC::Char*) : Void
   fun destroy : Void
 end
 
-JS.init
-JS.eval("new Date()")
-JS.eval("const a = 10;let b = 10;a + b;")
-JS.eval("class Person {
+V8.init
+V8.eval("new Date()")
+V8.eval("const a = 10;let b = 10;a + b;")
+V8.eval("class Person {
   constructor(name) {
     this.name = name;
   }
-  JSHello() {
+  V8Hello() {
     return (\"Hello, I'm \" + this.getName());
   }
   getName() {
     return this.name;
   }
-}; new Person('山田敬三').JSHello();")
-JS.eval("const fn = function(a){return a * 999};fn(10)")
-JS.eval("function exec(a) {return a * 555};exec(10)")
-JS.destroy
+}; new Person('山田敬三').V8Hello();")
+V8.eval("const fn = function(a){return a * 999};fn(10)")
+V8.eval("function exec(a) {return a * 555};exec(10)")
+V8.destroy
 

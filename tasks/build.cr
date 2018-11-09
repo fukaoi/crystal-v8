@@ -51,8 +51,21 @@ class Build < LuckyCli::Task
   def crystal_build
     @need_libs.each { |so| FileUtils.cp("#{V8_DIR}/#{@gn_env_dir}/#{so}", "lib/#{so}") }
     if system(
-         "crystal build #{@crytal_option} #{ENV["PWD"]}/src/#{get_target_main} \
-       -o bin/#{@file_name}"
+      <<-CMD
+         crystal build #{@crytal_option} \
+         #{ENV["PWD"]}/src/#{get_target_main} \
+         -o bin/#{@file_name} \
+         --link-flags=" \
+         -lv8_wrapper \
+         -licui18n \
+         -lv8_libplatform \
+         -licuuc \
+         -lv8_libbase \
+         -lv8 \
+         -lstdc++ \
+         -L#{ENV["PWD"]}/lib \
+         -L/usr/lib/x86_64-linux-gnu/"
+      CMD
        )
       system("chmod 755 bin/#{@file_name}")
     end
@@ -64,7 +77,11 @@ class Build < LuckyCli::Task
         g++ -I. -Iinclude \
         -c ../../src/#{get_target_lib} \
         -o ../../lib/libv8_wrapper.so \
-        -L#{@gn_env_dir}/obj/ -fPIC -pthread -std=c++0x -shared #{@cplus_option}"
+        -L#{@gn_env_dir}/obj/ \
+        -fPIC \
+        -pthread \
+        -std=c++0x \
+        -shared #{@cplus_option}"
     )
   end
 end
