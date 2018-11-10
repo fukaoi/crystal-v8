@@ -9,3 +9,4 @@ bin/*
 tools/v8
 tools/depot_tools
 core
+src/ext/*
