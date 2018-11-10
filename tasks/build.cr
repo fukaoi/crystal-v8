@@ -41,17 +41,7 @@ class Build < LuckyCli::Task
       <<-CMD
          crystal build #{@crytal_option} \
          #{ENV["PWD"]}/src/#{get_target_main} \
-         -o bin/#{@file_name} \
-         --link-flags=" \
-         -lv8_wrapper \
-         -licui18n \
-         -lv8_libplatform \
-         -licuuc \
-         -lv8_libbase \
-         -lv8 \
-         -lstdc++ \
-         -L#{ENV["PWD"]}/src/ext \
-         -L/usr/lib/x86_64-linux-gnu/"
+         -o bin/#{@file_name}
       CMD
        )
       system("chmod 755 bin/#{@file_name}")
@@ -60,7 +50,8 @@ class Build < LuckyCli::Task
 
   def cplus_build
     system(
-      "cd #{V8_DIR}; \
+      <<-CMD
+        cd #{V8_DIR}; \
         g++ -I. -Iinclude \
         -c ../../src/#{get_target_lib} \
         -o ../../src/ext/libv8_wrapper.so \
@@ -68,7 +59,8 @@ class Build < LuckyCli::Task
         -fPIC \
         -pthread \
         -std=c++0x \
-        -shared #{@cplus_option}"
+        -shared #{@cplus_option}
+       CMD
     )
   end
 end
