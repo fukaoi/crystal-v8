@@ -1,2 +1,2 @@
 require "spec"
-require "../src/duk-js"
+require "../src/**"
