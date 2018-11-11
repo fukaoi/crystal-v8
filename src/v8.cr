@@ -11,7 +11,7 @@
 
 lib JS
   fun init : Void
-  fun eval(code : LibC::Char*) : Void
+  fun eval(code : LibC::Char*) : LibC::Char*
   fun destroy : Void
 end
 

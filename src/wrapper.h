@@ -7,4 +7,4 @@
 extern "C" bool init_icu(const char *external_file_path);
 extern "C" void init();
 extern "C" void destroy();
-extern "C" void eval(const char *src);
+extern "C" const char* eval(const char *src);

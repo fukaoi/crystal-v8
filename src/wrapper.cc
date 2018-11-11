@@ -48,7 +48,7 @@ void destroy()
   delete m_platform;
 }
 
-void eval(const char *src)
+const char* eval(const char *src)
 {
   Isolate::Scope isolate_scope(isolate);
   HandleScope handle_scope(isolate);
@@ -61,5 +61,5 @@ void eval(const char *src)
 
   Local<Value> result = script->Run(isolate->GetCurrentContext()).ToLocalChecked();
   String::Utf8Value utf8(isolate, result);
-  printf("%s\n", *utf8);
+  return *utf8;
 }
