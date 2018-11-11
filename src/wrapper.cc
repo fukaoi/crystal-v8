@@ -48,6 +48,11 @@ void destroy()
   delete m_platform;
 }
 
+
+const char* toCString(const String::Utf8Value& value) {
+  return *value ? *value : "<string conversion failed>";
+}
+
 const char* eval(const char *src)
 {
   Isolate::Scope isolate_scope(isolate);
@@ -61,5 +66,7 @@ const char* eval(const char *src)
 
   Local<Value> result = script->Run(isolate->GetCurrentContext()).ToLocalChecked();
   String::Utf8Value utf8(isolate, result);
-  return *utf8;
+  const char* a = toCString(utf8);
+  printf("\n #### %s #### \n", a);
+  return a;
 }

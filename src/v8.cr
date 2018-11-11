@@ -23,7 +23,8 @@ module V8
 
     def eval(code : String)
       pointer = LibV8.eval(code)
-      String.new(pointer)
+      !pp pointer
+      !pp String.new(pointer)
     rescue exception
       !pp "todo: #{exception}"
     ensure
