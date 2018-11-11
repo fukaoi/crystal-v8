@@ -26,7 +26,9 @@ module V8
       String.new(pointer)
     rescue exception
       !pp "todo: #{exception}"
-    ensure
+    end
+    
+    def destructor
       LibV8.destroy
     end
   end
