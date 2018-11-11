@@ -2,7 +2,7 @@ require "./defined"
 
 class Clean < LuckyCli::Task
   banner "clean up bin/*"
-  BIN_RM = "rm -r bin/*"
+  BIN_RM = "rm -r bin/* && rm -r src/ext/*"
 
   def call
     unless system(BIN_RM)
