@@ -1,8 +1,5 @@
 #include "wrapper.h"
 
-using namespace std;
-using namespace v8;
-
 static Platform *m_platform;
 static Isolate *isolate;
 static Persistent<v8::Context> context;
@@ -48,11 +45,6 @@ void destroy()
   delete m_platform;
 }
 
-
-const char* toCString(const String::Utf8Value& value) {
-  return *value ? *value : "<string conversion failed>";
-}
-
 const char* eval(const char *src)
 {
   Isolate::Scope isolate_scope(isolate);
@@ -66,7 +58,14 @@ const char* eval(const char *src)
 
   Local<Value> result = script->Run(isolate->GetCurrentContext()).ToLocalChecked();
   String::Utf8Value utf8(isolate, result);
-  const char* a = toCString(utf8);
-  printf("\n #### %s #### \n", a);
-  return a;
+  const char* str = toCString(utf8);
+  return str;
+}
+
+// Utilitiy funciton
+const char* toCString(const String::Utf8Value& value) {
+  const char* val = *value ? *value : "<Failed convert>";
+  char *setval = new char [strlen(val)+1];
+  strcpy(setval,val);
+  return (const char*)setval;
 }
