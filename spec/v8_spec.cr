@@ -36,5 +36,12 @@ describe V8::JS do
     res = v8.eval("const fn = function(num){return num * 40};fn(10)")
     res.should eq "400"
   end
+
+  it "Run external file" do
+    calling = "const math = require('mathjs');math.log(10000, 10);"
+    code = File.read("#{__DIR__}/tools/math.min.js")
+    res = v8.eval("#{calling}")
+    !p res
+  end
 end
 v8.destructor
