@@ -58,12 +58,12 @@ const char* eval(const char *src)
 
   Local<Value> result = script->Run(isolate->GetCurrentContext()).ToLocalChecked();
   String::Utf8Value utf8(isolate, result);
-  const char* str = toCString(utf8);
+  const char* str = to_c_string(utf8);
   return str;
 }
 
 // Utilitiy funciton
-const char* toCString(const String::Utf8Value& value) {
+const char* to_c_string(const String::Utf8Value& value) {
   const char* val = *value ? *value : "<Failed convert>";
   char *setval = new char [strlen(val)+1];
   strcpy(setval,val);

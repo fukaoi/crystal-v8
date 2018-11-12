@@ -12,4 +12,4 @@ extern "C" void init();
 extern "C" void destroy();
 extern "C" const char* eval(const char *src);
 
-const char *toCString(const String::Utf8Value &value);
+const char *to_c_string(const String::Utf8Value &value);
