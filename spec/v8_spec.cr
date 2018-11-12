@@ -39,9 +39,8 @@ describe V8::JS do
 
   it "Run external file" do
     calling = "const math = require('mathjs');math.log(10000, 10);"
-    code = File.read("#{__DIR__}/tools/math.min.js")
+    code = File.read("#{__DIR__}/tools/stellar-sdk.js")
     res = v8.eval("#{calling}")
-    !p res
   end
 end
 v8.destructor
