@@ -49,7 +49,7 @@ class Build < LuckyCli::Task
   end
 
   def cplus_build
-    FileUtils.mkdir("src/ext")
+    FileUtils.mkdir("src/ext") unless Dir.exists?("src/ext")
     system(
       <<-CMD
         cd #{V8_DIR}; \
