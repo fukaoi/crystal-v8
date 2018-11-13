@@ -39,6 +39,7 @@ void init()
 
 void destroy()
 {
+  context.Reset();
   isolate->Dispose();
   V8::Dispose();
   V8::ShutdownPlatform();
