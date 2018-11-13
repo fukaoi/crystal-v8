@@ -10,7 +10,7 @@ class Build < LuckyCli::Task
     case ENV["LUCKY_ENV"]
     when "release"
       @gn_env_dir = GN_RELEASE_DIR
-      @file_name = V8_RELEASR
+      @file_name = V8_RELEASE
       @cplus_option = ""
       @crytal_option = ""
     when "development"
