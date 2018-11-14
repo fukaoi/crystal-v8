@@ -35,11 +35,11 @@ class Build < LuckyCli::Task
   def crystal_build
     if system(
       <<-CMD
-         crystal build #{@crytal_option} \
-         #{ENV["PWD"]}/src/#{get_target_main} \
-         -o bin/#{@file_name}
+        crystal build #{@crytal_option} \
+        #{ENV["PWD"]}/src/#{get_target_main} \
+        -o bin/#{@file_name}
       CMD
-       )
+      )
       system("chmod 755 bin/#{@file_name}")
     end
   end
@@ -56,7 +56,7 @@ class Build < LuckyCli::Task
         -pthread \
         -std=c++0x \
         -shared #{@cplus_option}
-       CMD
+      CMD
     )
     copy_libv8
   end
