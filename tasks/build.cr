@@ -70,6 +70,10 @@ end
 class V8Build < LuckyCli::Task
   banner "Build V8"
 
+  def initialize
+    set_env
+  end
+
   def call
     system("cd ./#{V8_DIR}; ./tools/dev/v8gen.py ./#{get_gn_dir}")
     system("cd ./#{V8_DIR}; gn gen ./#{get_gn_dir} #{create_gn_args}")
@@ -89,5 +93,10 @@ class V8Build < LuckyCli::Task
             v8_monolithic=false \
             v8_use_external_startup_data=false'
     ARGS
+  end
+
+  private def set_env
+    ENV["PATH"] += ":#{ENV["PWD"]}/#{DEPOT_DIR}"
+    ENV["LD_LIBRARY_PATH"] = "#{ENV["PWD"]}/#{LIBRARY_DIR}"
   end
 end
