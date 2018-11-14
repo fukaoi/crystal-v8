@@ -5,9 +5,9 @@ class Spec < LuckyCli::Task
 
   def call
     if ARGV.size > 0
-      system("LD_LIBRARY_PATH=`pwd`/src/ext crystal spec -v #{ARGV[0]}")
+      system("LD_LIBRARY_PATH=`pwd`/#{LIBRARY_DIR} crystal spec -v #{ARGV[0]}")
     else
-      system("LD_LIBRARY_PATH=`pwd`/src/ext crystal spec -v spec/")
+      system("LD_LIBRARY_PATH=`pwd`/#{LIBRARY_DIR} crystal spec -v spec/")
     end
     puts "Done spec."
   end

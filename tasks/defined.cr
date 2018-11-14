@@ -3,7 +3,7 @@ require "yaml"
 TOOLS_DIR   = "tools"
 DEPOT_DIR   = "#{TOOLS_DIR}/depot_tools"
 V8_DIR      = "#{TOOLS_DIR}/v8"
-LIBRARY_DIR = "lib"
+LIBRARY_DIR = "libv8"
 
 GN_RELEASE_DIR     = "out.gn/x64.debug"
 GN_DEVELOPMENT_DIR = "out.gn/x64.debug"
@@ -13,12 +13,20 @@ V8_RELEASE     = "v8_release"
 V8_DEVELOPMENT = "v8_developemnt"
 V8_TEST        = "v8_test"
 
-def set_env
-  ENV["PATH"] += ":#{ENV["PWD"]}/#{DEPOT_DIR}"
-  ENV["LD_LIBRARY_PATH"] = "#{ENV["PWD"]}/#{LIBRARY_DIR}"
-end
 
-set_env
+def get_gn_dir
+  case ENV["LUCKY_ENV"]
+  when "release"
+    dir = GN_RELEASE_DIR
+  when "development"
+    dir = GN_DEVELOPMENT_DIR
+  when "test"
+    dir = GN_TEST_DIR
+  else
+    raise Exception.new("No match enviroment value: #{ENV["LUCKY_ENV"]}")
+  end
+  dir
+end
 
 def get_target_main
   yaml = File.open("shard.yml") do |file|

@@ -5,7 +5,7 @@
   -licuuc \
   -lv8_libbase \
   -lv8 \
-  -L#{__DIR__}/ext \
+  -L#{__DIR__}/../libv8 \
   -lstdc++"
 )]
 
@@ -27,7 +27,7 @@ module V8
     rescue exception
       !pp "todo: #{exception}"
     end
-    
+
     def destructor
       LibV8.destroy
     end

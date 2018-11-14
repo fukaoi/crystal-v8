@@ -5,8 +5,8 @@ class Install < LuckyCli::Task
   banner "Install v8,shards,etc."
 
   def call
-    FileUtils.mkdir(TOOLS_DIR)
-    unless Dir.exists?("#{DEPOT_DIR}")
+    FileUtils.mkdir(TOOLS_DIR) unless Dir.exists?(DEPOT_DIR)
+    unless Dir.exists?(DEPOT_DIR)
       system("cd ./#{TOOLS_DIR};git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git")
     end
     system("cd #{TOOLS_DIR};fetch v8")

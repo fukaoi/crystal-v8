@@ -5,21 +5,18 @@ class Build < LuckyCli::Task
   banner "Build C++, Crystal program files"
 
   def initialize
-    return if ARGV != ["build"] && ARGV != ["full_build"]
+    return if ARGV != ["build"] && ARGV != ["v8_build"]
 
     case ENV["LUCKY_ENV"]
     when "release"
-      @gn_env_dir = GN_RELEASE_DIR
       @file_name = V8_RELEASE
       @cplus_option = ""
       @crytal_option = ""
     when "development"
-      @gn_env_dir = GN_DEVELOPMENT_DIR
       @file_name = V8_DEVELOPMENT
       @cplus_option = ""
       @crytal_option = ""
     when "test"
-      @gn_env_dir = GN_TEST_DIR
       @file_name = V8_TEST
       @cplus_option = "-g"
       @crytal_option = "-d"
@@ -36,7 +33,6 @@ class Build < LuckyCli::Task
   end
 
   def crystal_build
-    get_v8_shared_object.each { |so| FileUtils.cp("#{V8_DIR}/#{@gn_env_dir}/#{so}", "src/ext/#{so}") }
     if system(
       <<-CMD
          crystal build #{@crytal_option} \
@@ -49,32 +45,36 @@ class Build < LuckyCli::Task
   end
 
   def cplus_build
-    FileUtils.mkdir("src/ext") unless Dir.exists?("src/ext")
     system(
       <<-CMD
         cd #{V8_DIR}; \
         g++ -I. -Iinclude \
-        -c ../../src/#{get_target_lib} \
-        -o ../../src/ext/libv8_wrapper.so \
-        -L#{@gn_env_dir}/obj/ \
+        -c ../../src/ext/#{get_target_lib} \
+        -o ../../#{LIBRARY_DIR}/libv8_wrapper.so \
+        -L#{get_gn_dir}/obj/ \
         -fPIC \
         -pthread \
         -std=c++0x \
         -shared #{@cplus_option}
        CMD
     )
+    copy_libv8
+  end
+
+  private def copy_libv8
+    FileUtils.mkdir(LIBRARY_DIR) unless Dir.exists?(LIBRARY_DIR)
+    get_v8_shared_object.each { |so| FileUtils.cp("#{V8_DIR}/#{get_gn_dir}/#{so}", "#{LIBRARY_DIR}/#{so}") }
   end
 end
 
-class FullBuild < Build
-  banner "Build C++, Crystal program files and V8"
+class V8Build < LuckyCli::Task
+  banner "Build V8"
 
   def call
-    system("cd ./#{V8_DIR}; ./tools/dev/v8gen.py ./#{self.@gn_env_dir}")
-    system("cd ./#{V8_DIR}; gn gen ./#{self.@gn_env_dir} #{create_gn_args}")
-    system("cd ./#{V8_DIR}; ninja -C #{self.@gn_env_dir}")
-    self.cplus_build
-    puts "full_build done."
+    system("cd ./#{V8_DIR}; ./tools/dev/v8gen.py ./#{get_gn_dir}")
+    system("cd ./#{V8_DIR}; gn gen ./#{get_gn_dir} #{create_gn_args}")
+    system("cd ./#{V8_DIR}; ninja -C #{get_gn_dir}")
+    puts "v8 build done."
   end
 
   private def create_gn_args
