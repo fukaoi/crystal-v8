@@ -1,5 +1,5 @@
-#include <stdlib.h>
-#include <string.h>
+// #include <stdlib.h>
+// #include <string.h>
 #include <iostream>
 #include <libplatform/libplatform.h>
 #include <v8.h>

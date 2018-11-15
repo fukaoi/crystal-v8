@@ -46,18 +46,26 @@ class Build < LuckyCli::Task
 
   def cplus_build
     cmd = <<-CMD
-      g++ -I#{LIBRARY_DIR}/include \
+      g++ \
+      -Wall -std=c++11 -fPIC -fno-rtti -DV8PP_ISOLATE_DATA_SLOT=0 -fexceptions \
+      -I#{LIBRARY_DIR}/include \
+      -Isrc/ext \
       src/ext/#{get_target_lib} \
       -o bin/bridge \
       -lv8pp \
-      -L#{LIBRARY_DIR}/lib \
-      -Lsrc/ext \
+      -licui18n \
+      -lv8_libplatform \
+      -licuuc \
+      -lv8_libbase \
+      -lv8 \
+      -ldl \
       -fPIC \
       -pthread \
-      -std=c++0x \
-       #{@cplus_option}
+      -L#{LIBRARY_DIR}/lib \
+      -Lsrc/ext \
+      -Lsrc/ext/v8pp \
+      #{@cplus_option}
     CMD
-    !pp cmd
     system(cmd)
 
     # system(
