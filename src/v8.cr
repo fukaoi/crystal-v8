@@ -1,11 +1,12 @@
 @[Link(ldflags:
-  "-lv8_wrapper \
+  "-lv8_bridge \
   -licui18n \
   -lv8_libplatform \
   -licuuc \
   -lv8_libbase \
   -lv8 \
-  -L#{__DIR__}/../libv8 \
+  -L#{__DIR__}/ext \
+  -L/opt/libv8-6.6/lib \
   -lstdc++"
 )]
 
@@ -14,6 +15,11 @@ lib LibV8
   fun eval(code : LibC::Char*) : LibC::Char*
   fun destroy : Void
 end
+
+LibV8.init
+puts LibV8.eval("1+1")
+LibV8.destroy
+
 
 module V8
   class JS

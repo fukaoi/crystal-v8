@@ -47,18 +47,19 @@ class Build < LuckyCli::Task
   def cplus_build
     system(
       <<-CMD
-        cd #{V8_DIR}; \
-        g++ -I. -Iinclude \
-        -c ../../src/ext/#{get_target_lib} \
-        -o ../../#{LIBRARY_DIR}/libv8_wrapper.so \
-        -L#{get_gn_dir}/obj/ \
+        g++ -I. -I#{LIBRARY_DIR}/include \
+        -c src/ext/#{get_target_lib} \
+        -o src/ext/libv8_bridge.so \
+        -lv8pp \
+        -L#{LIBRARY_DIR}/lib \
+        -Lsrc/ext \
         -fPIC \
         -pthread \
         -std=c++0x \
         -shared #{@cplus_option}
       CMD
     )
-    copy_libv8
+    # copy_libv8
   end
 
   private def copy_libv8
