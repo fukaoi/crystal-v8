@@ -39,7 +39,7 @@ def get_target_lib
   yaml = File.open("shard.yml") do |file|
     YAML.parse(file)
   end
-  yaml["targets"]["v8"]["lib"]
+  yaml["targets"]["v8"]["lib"] #todo split .cc and name
 end
 
 def get_v8_shared_object
