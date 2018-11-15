@@ -28,7 +28,7 @@ class Build < LuckyCli::Task
 
   def call
     cplus_build
-    crystal_build
+    # crystal_build
     puts "build done."
   end
 
@@ -45,20 +45,35 @@ class Build < LuckyCli::Task
   end
 
   def cplus_build
-    system(
-      <<-CMD
-        g++ -I. -I#{LIBRARY_DIR}/include \
-        -c src/ext/#{get_target_lib} \
-        -o src/ext/libv8_bridge.so \
-        -lv8pp \
-        -L#{LIBRARY_DIR}/lib \
-        -Lsrc/ext \
-        -fPIC \
-        -pthread \
-        -std=c++0x \
-        -shared #{@cplus_option}
-      CMD
-    )
+    cmd = <<-CMD
+      g++ -I#{LIBRARY_DIR}/include \
+      src/ext/#{get_target_lib} \
+      -o bin/bridge \
+      -lv8pp \
+      -L#{LIBRARY_DIR}/lib \
+      -Lsrc/ext \
+      -fPIC \
+      -pthread \
+      -std=c++0x \
+       #{@cplus_option}
+    CMD
+    !pp cmd
+    system(cmd)
+
+    # system(
+      # <<-CMD
+      #   g++ -I. -I#{LIBRARY_DIR}/include \
+      #   -c src/ext/#{get_target_lib} \
+      #   -o src/ext/libv8_bridge.so \
+      #   -lv8pp \
+      #   -L#{LIBRARY_DIR}/lib \
+      #   -Lsrc/ext \
+      #   -fPIC \
+      #   -pthread \
+      #   -std=c++0x \
+      #   -shared #{@cplus_option}
+      # CMD
+    # )
     # copy_libv8
   end
 
