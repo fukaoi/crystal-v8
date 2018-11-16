@@ -18,7 +18,7 @@ class Build < LuckyCli::Task
       @crytal_option = ""
     when "test"
       @file_name = V8_TEST
-      @cplus_option = "-g"
+      @cplus_option = "-g -Wall"
       @crytal_option = "-d"
     else
       raise Exception.new("No match enviroment value: #{ENV["LUCKY_ENV"]}")
@@ -47,10 +47,10 @@ class Build < LuckyCli::Task
     raise Exception.new("C++ build failed") unless system(
     <<-CMD
         cd #{V8_DIR}; \
-        g++ -I. -Iinclude \
-        -c ../../src/ext/#{get_target_lib} \
+        g++ -I. -Iinclude -I../../src/ext \
+        ../../src/ext/#{get_target_lib} \
         ../../src/ext/utility.cc \
-        ../../#{LIBRARY_DIR}/libv8_wrapper.so \
+        -o ../../#{LIBRARY_DIR}/libv8_wrapper.so \
         -L#{get_gn_dir}/obj/ \
         -fPIC \
         -pthread \

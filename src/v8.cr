@@ -1,5 +1,5 @@
 @[Link(ldflags:
-  "-lv8_wrapper \
+ "-lv8_wrapper \
   -licui18n \
   -lv8_libplatform \
   -licuuc \
