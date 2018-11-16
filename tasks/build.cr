@@ -30,27 +30,27 @@ class Build < LuckyCli::Task
     cplus_build
     crystal_build
     puts "build done."
+  rescue e : Exception
+    puts e.to_s
   end
 
   def crystal_build
-    if system(
+    raise Exception.new("Crystal build failed") unless system(
       <<-CMD
-        crystal build #{@crytal_option} \
-        #{ENV["PWD"]}/src/#{get_target_main} \
+        crystal build #{@crytal_option} #{ENV["PWD"]}/src/#{get_target_main} \
         -o bin/#{@file_name}
       CMD
-      )
-      system("chmod 755 bin/#{@file_name}")
-    end
+    )
   end
 
   def cplus_build
-    system(
-      <<-CMD
+    raise Exception.new("C++ build failed") unless system(
+    <<-CMD
         cd #{V8_DIR}; \
         g++ -I. -Iinclude \
         -c ../../src/ext/#{get_target_lib} \
-        -o ../../#{LIBRARY_DIR}/libv8_wrapper.so \
+        ../../src/ext/utility.cc \
+        ../../#{LIBRARY_DIR}/libv8_wrapper.so \
         -L#{get_gn_dir}/obj/ \
         -fPIC \
         -pthread \
