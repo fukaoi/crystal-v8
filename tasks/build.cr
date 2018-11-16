@@ -18,7 +18,7 @@ class Build < LuckyCli::Task
       @crytal_option = ""
     when "test"
       @file_name = V8_TEST
-      @cplus_option = "-g"
+      @cplus_option = "-g -Wall"
       @crytal_option = "-d"
     else
       raise Exception.new("No match enviroment value: #{ENV["LUCKY_ENV"]}")
@@ -30,34 +30,36 @@ class Build < LuckyCli::Task
     cplus_build
     crystal_build
     puts "build done."
+  rescue e : Exception
+    puts e.to_s
   end
 
   def crystal_build
-    if system(
+    raise Exception.new("Crystal build failed") unless system(
       <<-CMD
-        crystal build #{@crytal_option} \
+        crystal build \
+        #{@crytal_option} \
         #{ENV["PWD"]}/src/#{get_target_main} \
         -o bin/#{@file_name}
       CMD
-      )
-      system("chmod 755 bin/#{@file_name}")
-    end
+    )
   end
 
   def cplus_build
-    system(
-      <<-CMD
-        cd #{V8_DIR}; \
-        g++ -I. -Iinclude \
-        -c ../../src/ext/#{get_target_lib} \
-        -o ../../#{LIBRARY_DIR}/libv8_wrapper.so \
-        -L#{get_gn_dir}/obj/ \
-        -fPIC \
-        -pthread \
-        -std=c++0x \
-        -shared #{@cplus_option}
-      CMD
-    )
+    cmd =
+    <<-CMD
+      cd #{V8_DIR}; \
+      g++ -I. -Iinclude \
+      ../../src/ext/*.cc \
+      -o ../../#{LIBRARY_DIR}/libv8_wrapper.so \
+      -L#{get_gn_dir}/obj/ \
+      -fPIC \
+      -pthread \
+      -std=c++0x \
+      -shared #{@cplus_option}
+    CMD
+    puts cmd if @env == "test"
+    raise Exception.new("C++ build failed") unless system(cmd)
     copy_libv8
   end
 

@@ -35,13 +35,6 @@ def get_target_main
   yaml["targets"]["v8"]["main"]
 end
 
-def get_target_lib
-  yaml = File.open("shard.yml") do |file|
-    YAML.parse(file)
-  end
-  yaml["targets"]["v8"]["lib"]
-end
-
 def get_v8_shared_object
     %w(
       libicui18n.so

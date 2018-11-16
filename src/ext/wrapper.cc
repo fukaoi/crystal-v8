@@ -4,7 +4,7 @@ static Platform *m_platform;
 static Isolate *isolate;
 static Persistent<v8::Context> context;
 
-bool init_icu(const char* external_file_path) {
+void init_icu(const char* external_file_path) {
   V8::InitializeICU(external_file_path);
   V8::InitializeExternalStartupData(external_file_path);
 }
@@ -59,14 +59,5 @@ const char* eval(const char *src)
 
   Local<Value> result = script->Run(isolate->GetCurrentContext()).ToLocalChecked();
   String::Utf8Value utf8(isolate, result);
-  const char* str = to_c_string(utf8);
-  return str;
-}
-
-// Utilitiy funciton
-const char* to_c_string(const String::Utf8Value& value) {
-  const char* val = *value ? *value : "<Failed convert>";
-  char *setval = new char [strlen(val)+1];
-  strcpy(setval,val);
-  return (const char*)setval;
+  return Utility::ToCString(utf8);
 }
