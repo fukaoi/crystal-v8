@@ -37,27 +37,29 @@ class Build < LuckyCli::Task
   def crystal_build
     raise Exception.new("Crystal build failed") unless system(
       <<-CMD
-        crystal build #{@crytal_option} #{ENV["PWD"]}/src/#{get_target_main} \
+        crystal build \
+        #{@crytal_option} \
+        #{ENV["PWD"]}/src/#{get_target_main} \
         -o bin/#{@file_name}
       CMD
     )
   end
 
   def cplus_build
-    raise Exception.new("C++ build failed") unless system(
+    cmd =
     <<-CMD
-        cd #{V8_DIR}; \
-        g++ -I. -Iinclude -I../../src/ext \
-        ../../src/ext/#{get_target_lib} \
-        ../../src/ext/utility.cc \
-        -o ../../#{LIBRARY_DIR}/libv8_wrapper.so \
-        -L#{get_gn_dir}/obj/ \
-        -fPIC \
-        -pthread \
-        -std=c++0x \
-        -shared #{@cplus_option}
-      CMD
-    )
+      cd #{V8_DIR}; \
+      g++ -I. -Iinclude \
+      ../../src/ext/*.cc \
+      -o ../../#{LIBRARY_DIR}/libv8_wrapper.so \
+      -L#{get_gn_dir}/obj/ \
+      -fPIC \
+      -pthread \
+      -std=c++0x \
+      -shared #{@cplus_option}
+    CMD
+    puts cmd if @env == "test"
+    raise Exception.new("C++ build failed") unless system(cmd)
     copy_libv8
   end
 

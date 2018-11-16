@@ -1,5 +1,5 @@
-#include "v8.h"
 #include <string.h>
+#include "v8.h"
 
 using namespace v8;
 
@@ -9,7 +9,7 @@ public:
   static const char *ToCString(const String::Utf8Value &value);
 };
 
-static const char *ToCString(const String::Utf8Value &value)
+inline const char *Utility::ToCString(const String::Utf8Value &value)
 {
   const char *val = *value ? *value : "<Failed string convert>";
   char *setval = new char[strlen(val) + 1];
