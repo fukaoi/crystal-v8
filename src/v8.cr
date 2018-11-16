@@ -1,19 +1,4 @@
-@[Link(ldflags:
- "-lv8_wrapper \
-  -licui18n \
-  -lv8_libplatform \
-  -licuuc \
-  -lv8_libbase \
-  -lv8 \
-  -L#{__DIR__}/../libv8 \
-  -lstdc++"
-)]
-
-lib LibV8
-  fun init : Void
-  fun eval(code : LibC::Char*) : LibC::Char*
-  fun destroy : Void
-end
+require "./v8/libv8"
 
 module V8
   class JS
