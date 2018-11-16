@@ -1,4 +1,4 @@
-# v8.cr
+# crystal-v8
 
   V8 Javascript engine for Crystal.
 
