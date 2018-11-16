@@ -3,7 +3,7 @@
 #include <iostream>
 #include "libplatform/libplatform.h"
 #include "v8.h"
-#include "utility.h"
+#include "utility.cc"
 
 using namespace std;
 using namespace v8;
