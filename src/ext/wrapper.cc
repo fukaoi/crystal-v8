@@ -4,7 +4,7 @@ static Platform *m_platform;
 static Isolate *isolate;
 static Persistent<v8::Context> context;
 
-bool init_icu(const char* external_file_path) {
+void init_icu(const char* external_file_path) {
   V8::InitializeICU(external_file_path);
   V8::InitializeExternalStartupData(external_file_path);
 }
