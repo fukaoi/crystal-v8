@@ -6,4 +6,6 @@ class Require
 private:
   /* data */
 public:
+  Require();
+  ~Require();
 };
