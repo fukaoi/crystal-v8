@@ -37,10 +37,10 @@ describe V8::JS do
     res.should eq "400"
   end
 
-  it "Run external file" do
-    calling = "const math = require('mathjs');math.log(10000, 10);"
-    code = File.read("#{__DIR__}/tools/stellar-sdk.js")
-    res = v8.eval("#{calling}")
-  end
+  # it "Run external file" do
+  #   calling = "const math = require('mathjs');math.log(10000, 10);"
+  #   code = File.read("#{__DIR__}/tools/stellar-sdk.js")
+  #   res = v8.eval("#{calling}")
+  # end
 end
 v8.destructor
