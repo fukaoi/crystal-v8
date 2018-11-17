@@ -5,9 +5,9 @@
 ## Installation
 
 ```bash
-shards install
+shards install //need to lucky-cli 
 
-lucky install
+lucky install  //need to ecosystem for v8 engine 
 ```
 
 ## Usage
