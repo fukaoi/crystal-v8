@@ -1,3 +1,6 @@
+#ifndef EXT_WRAPPER_
+#define EXT_WRAPPER_
+
 #include <stdlib.h>
 #include <string.h>
 #include <iostream>
@@ -13,3 +16,5 @@ extern "C" void init_icu(const char *external_file_path);
 extern "C" void init();
 extern "C" void destroy();
 extern "C" const char* eval(const char *src);
+
+#endif

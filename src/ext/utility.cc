@@ -1,4 +1,5 @@
-#pragma once
+#ifndef EXT_UTILITY_
+#define EXT_UTILITY_
 
 #include <string.h>
 #include "v8.h"
@@ -23,3 +24,5 @@ inline const char *Utility::ToCrystalString(const String::Utf8Value &value)
 inline const char *Utility::ToCString(const String::Utf8Value& value) {
   return *value ? *value : "<string conversion failed>";
 }
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef EXT_REQUIRE_
+#define EXT_REQUIRE_
+
 #include <string.h>
 #include <assert.h>
 #include "v8.h"
@@ -21,7 +24,7 @@ public:
   ~Require();
 };
 
-void Require::Exec(const FunctionCallbackInfo<Value> &args)
+inline void Require::Exec(const FunctionCallbackInfo<Value> &args)
 {
   for (int i = 0; i < args.Length(); i++)
   {
@@ -55,7 +58,7 @@ void Require::Exec(const FunctionCallbackInfo<Value> &args)
   }
 }
 
-MaybeLocal<String> Require::ReadFile(Isolate *isolate, const char *name)
+inline MaybeLocal<String> Require::ReadFile(Isolate *isolate, const char *name)
 {
   FILE *file = fopen(name, "rb");
   if (file == NULL)
@@ -83,7 +86,7 @@ MaybeLocal<String> Require::ReadFile(Isolate *isolate, const char *name)
   return result;
 }
 
-bool Require::ExecuteString(Isolate *isolate, Local<String> source,
+inline bool Require::ExecuteString(Isolate *isolate, Local<String> source,
                    Local<Value> name, bool print_result,
                    bool report_exceptions)
 {
@@ -126,7 +129,7 @@ bool Require::ExecuteString(Isolate *isolate, Local<String> source,
   }
 }
 
-void Require::ReportException(Isolate *isolate, TryCatch *try_catch)
+inline void Require::ReportException(Isolate *isolate, TryCatch *try_catch)
 {
   HandleScope handle_scope(isolate);
   String::Utf8Value exception(isolate, try_catch->Exception());
@@ -175,3 +178,5 @@ void Require::ReportException(Isolate *isolate, TryCatch *try_catch)
     }
   }
 }
+
+#endif
