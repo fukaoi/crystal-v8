@@ -67,7 +67,6 @@ class Build < LuckyCli::Task
   end
 
   private def mkdir_libv8
-    debug(`pwd`)
     FileUtils.mkdir(LIBRARY_DIR) unless Dir.exists?(LIBRARY_DIR)
   end
 

@@ -59,7 +59,7 @@ const char* eval(const char *src)
 
   Local<Value> result = script->Run(isolate->GetCurrentContext()).ToLocalChecked();
   String::Utf8Value utf8(isolate, result);
-  return Utility::ToCString(utf8);
+  return Utility::ToCrystalString(utf8);
 }
 
 // Local<Context> setupCustomFunction()

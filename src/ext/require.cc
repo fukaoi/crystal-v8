@@ -2,6 +2,7 @@
 #include <assert.h>
 #include "v8.h"
 #include "libplatform/libplatform.h"
+#include "utility.cc"
 
 using namespace v8;
 
@@ -20,7 +21,7 @@ public:
   ~Require();
 };
 
-void Exec(const FunctionCallbackInfo<Value> &args)
+void Require::Exec(const FunctionCallbackInfo<Value> &args)
 {
   for (int i = 0; i < args.Length(); i++)
   {
@@ -54,7 +55,7 @@ void Exec(const FunctionCallbackInfo<Value> &args)
   }
 }
 
-MaybeLocal<String> ReadFile(Isolate *isolate, const char *name)
+MaybeLocal<String> Require::ReadFile(Isolate *isolate, const char *name)
 {
   FILE *file = fopen(name, "rb");
   if (file == NULL)
@@ -82,7 +83,7 @@ MaybeLocal<String> ReadFile(Isolate *isolate, const char *name)
   return result;
 }
 
-bool ExecuteString(Isolate *isolate, Local<String> source,
+bool Require::ExecuteString(Isolate *isolate, Local<String> source,
                    Local<Value> name, bool print_result,
                    bool report_exceptions)
 {
@@ -117,7 +118,7 @@ bool ExecuteString(Isolate *isolate, Local<String> source,
         // If all went well and the result wasn't undefined then print
         // the returned value.
         v8::String::Utf8Value str(isolate, result);
-        const char *cstr = ToCString(str);
+        const char *cstr = Utility::ToCString(str);
         printf("%s\n", cstr);
       }
       return true;
@@ -125,11 +126,11 @@ bool ExecuteString(Isolate *isolate, Local<String> source,
   }
 }
 
-void ReportException(Isolate *isolate, TryCatch *try_catch)
+void Require::ReportException(Isolate *isolate, TryCatch *try_catch)
 {
   HandleScope handle_scope(isolate);
   String::Utf8Value exception(isolate, try_catch->Exception());
-  const char *exception_string = ToCString(exception);
+  const char *exception_string = Utility::ToCString(exception);
   Local<Message> message = try_catch->Message();
   if (message.IsEmpty())
   {
@@ -143,13 +144,13 @@ void ReportException(Isolate *isolate, TryCatch *try_catch)
     String::Utf8Value filename(isolate,
                                message->GetScriptOrigin().ResourceName());
     Local<Context> context(isolate->GetCurrentContext());
-    const char *filename_string = ToCString(filename);
+    const char *filename_string = Utility::ToCString(filename);
     int linenum = message->GetLineNumber(context).FromJust();
     fprintf(stderr, "%s:%i: %s\n", filename_string, linenum, exception_string);
     // Print line of source code.
     String::Utf8Value sourceline(
         isolate, message->GetSourceLine(context).ToLocalChecked());
-    const char *sourceline_string = ToCString(sourceline);
+    const char *sourceline_string = Utility::ToCString(sourceline);
     fprintf(stderr, "%s\n", sourceline_string);
     // Print wavy underline (GetUnderline is deprecated).
     int start = message->GetStartColumn(context).FromJust();
@@ -169,7 +170,7 @@ void ReportException(Isolate *isolate, TryCatch *try_catch)
         Local<String>::Cast(stack_trace_string)->Length() > 0)
     {
       String::Utf8Value stack_trace(isolate, stack_trace_string);
-      const char *stack_trace_string = ToCString(stack_trace);
+      const char *stack_trace_string = Utility::ToCString(stack_trace);
       fprintf(stderr, "%s\n", stack_trace_string);
     }
   }
