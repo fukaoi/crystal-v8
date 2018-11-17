@@ -1,4 +1,5 @@
 require "yaml"
+require "colorize"
 
 TOOLS_DIR   = "tools"
 DEPOT_DIR   = "#{TOOLS_DIR}/depot_tools"
