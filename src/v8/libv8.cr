@@ -1,5 +1,5 @@
 @[Link(ldflags:
- " #{__DIR__}/../../libv8/libv8_wrapper.so \
+ " #{__DIR__}/../../libv8/lib_wrapper.so \
   -licui18n \
   -lv8_libplatform \
   -licuuc \
