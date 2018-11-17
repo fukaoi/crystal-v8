@@ -13,6 +13,18 @@ V8_RELEASE     = "v8_release"
 V8_DEVELOPMENT = "v8_developemnt"
 V8_TEST        = "v8_test"
 
+DEFAULT_ENV = "test"
+ENV_PATTERNS = {release: "release", development: "development", test: "test"}
+
+begin
+  ENV["LUCKY_ENV"]
+rescue KeyError
+  ENV["LUCKY_ENV"] = DEFAULT_ENV
+end
+
+unless ENV_PATTERNS.has_key?(ENV["LUCKY_ENV"])
+  raise Exception.new("No match enviroment value: #{ENV["LUCKY_ENV"]}")
+end
 
 def get_gn_dir
   case ENV["LUCKY_ENV"]
@@ -22,8 +34,6 @@ def get_gn_dir
     dir = GN_DEVELOPMENT_DIR
   when "test"
     dir = GN_TEST_DIR
-  else
-    raise Exception.new("No match enviroment value: #{ENV["LUCKY_ENV"]}")
   end
   dir
 end

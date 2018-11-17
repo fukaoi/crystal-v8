@@ -3,6 +3,8 @@ require "./defined"
 class Run < LuckyCli::Task
   banner "running v8 binary_name binary"
 
+  @binary_name = ""
+
   def initialize
     return if ARGV != ["run"]
     case ENV["LUCKY_ENV"]
@@ -12,8 +14,6 @@ class Run < LuckyCli::Task
       @binary_name = V8_DEVELOPMENT
     when "test"
       @binary_name = V8_TEST
-    else
-      raise Exception.new("No match enviroment value: #{ENV["LUCKY_ENV"]}")
     end
   end
 

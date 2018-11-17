@@ -4,9 +4,13 @@ require "file_utils"
 class Build < LuckyCli::Task
   banner "Build C++, Crystal program files"
 
+  @file_name = ""
+  @cplus_option = ""
+  @crytal_option = ""
+  @env = ""
+
   def initialize
     return if ARGV != ["build"] && ARGV != ["v8_build"]
-
     case ENV["LUCKY_ENV"]
     when "release"
       @file_name = V8_RELEASE
@@ -20,8 +24,6 @@ class Build < LuckyCli::Task
       @file_name = V8_TEST
       @cplus_option = "-g -Wall"
       @crytal_option = "-d"
-    else
-      raise Exception.new("No match enviroment value: #{ENV["LUCKY_ENV"]}")
     end
     @env = ENV["LUCKY_ENV"]
   end
