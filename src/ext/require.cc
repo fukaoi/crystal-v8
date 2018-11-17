@@ -1,19 +1,26 @@
 #include <string.h>
 #include <assert.h>
 #include "v8.h"
+#include "libplatform/libplatform.h"
 
 using namespace v8;
 
 class Require
 {
 private:
-  /* data */
+
 public:
   Require();
+  void Exec(const FunctionCallbackInfo<Value> &args);
+  MaybeLocal<String> ReadFile(Isolate *isolate, const char *name);
+  bool ExecuteString(Isolate *isolate, Local<String> source,
+                     Local<Value> name, bool print_result,
+                     bool report_exceptions);
+  void ReportException(Isolate *isolate, TryCatch *try_catch);
   ~Require();
 };
 
-void Require(const FunctionCallbackInfo<Value> &args)
+void Exec(const FunctionCallbackInfo<Value> &args)
 {
   for (int i = 0; i < args.Length(); i++)
   {
@@ -166,14 +173,4 @@ void ReportException(Isolate *isolate, TryCatch *try_catch)
       fprintf(stderr, "%s\n", stack_trace_string);
     }
   }
-}
-
-Local<Context> SetupCustomFunction()
-{
-  Local<ObjectTemplate> global = ObjectTemplate::New(isolate);
-  global->Set(String::NewFromUtf8(
-                  isolate, "require", NewStringType::kNormal)
-                  .ToLocalChecked(),
-              FunctionTemplate::New(isolate, Require));
-  return Context::New(isolate, NULL, global);
 }

@@ -61,3 +61,13 @@ const char* eval(const char *src)
   String::Utf8Value utf8(isolate, result);
   return Utility::ToCString(utf8);
 }
+
+Local<Context> setupCustomFunction()
+{
+  Local<ObjectTemplate> global = ObjectTemplate::New(isolate);
+  global->Set(String::NewFromUtf8(
+                  isolate, "require", NewStringType::kNormal)
+                  .ToLocalChecked(),
+              FunctionTemplate::New(isolate, Require));
+  return Context::New(isolate, NULL, global);
+}
