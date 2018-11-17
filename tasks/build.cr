@@ -31,9 +31,9 @@ class Build < LuckyCli::Task
   def call
     cplus_build
     crystal_build
-    puts "build done."
+    success("Build done")
   rescue e : Exception
-    puts e.to_s
+    error(e.to_s)
   end
 
   def crystal_build
@@ -60,7 +60,7 @@ class Build < LuckyCli::Task
       -std=c++0x \
       -shared #{@cplus_option}
     CMD
-    puts cmd if @env == "test"
+    debug(cmd) if @env == "test"
     raise Exception.new("C++ build failed") unless system(cmd)
     copy_libv8
   end
@@ -79,10 +79,16 @@ class V8Build < LuckyCli::Task
   end
 
   def call
-    system("cd ./#{V8_DIR}; ./tools/dev/v8gen.py ./#{get_gn_dir}")
-    system("cd ./#{V8_DIR}; gn gen ./#{get_gn_dir} #{create_gn_args}")
-    system("cd ./#{V8_DIR}; ninja -C #{get_gn_dir}")
-    puts "v8 build done."
+    result_flag = true
+    result_flag = system("cd ./#{V8_DIR}; ./tools/dev/v8gen.py ./#{get_gn_dir}")
+    result_flag = system("cd ./#{V8_DIR}; gn gen ./#result_flag = {get_gn_dir} #{create_gn_args}")
+    result_flag = system("cd ./#{V8_DIR}; ninja -C #{get_gn_dir}")
+
+    if result_flag
+      success("V8 build done")
+    else
+      error("V8 build failed")
+    end
   end
 
   private def create_gn_args

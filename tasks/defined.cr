@@ -55,3 +55,17 @@ def get_v8_shared_object
       libv8.so
     )
 end
+
+def debug(message)
+  puts "\n"
+  puts "[DEBUG]:#{message.colorize(:blue)}"
+  puts "\n"
+end
+
+def error(message)
+  puts message.colorize(:red)
+end
+
+def success(message)
+  puts message.colorize(:green)
+end

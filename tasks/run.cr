@@ -19,9 +19,9 @@ class Run < LuckyCli::Task
 
   def call
     unless system("./bin/#{@binary_name}")
-      "Failed running".colorize(:red)
+      error("Failed running")
     else
-      "Done.".colorize(:green)
+      success("Done")
     end
   end
 end
