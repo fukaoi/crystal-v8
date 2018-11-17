@@ -62,12 +62,13 @@ const char* eval(const char *src)
   return Utility::ToCString(utf8);
 }
 
-Local<Context> setupCustomFunction()
-{
-  Local<ObjectTemplate> global = ObjectTemplate::New(isolate);
-  global->Set(String::NewFromUtf8(
-                  isolate, "require", NewStringType::kNormal)
-                  .ToLocalChecked(),
-              FunctionTemplate::New(isolate, Require));
-  return Context::New(isolate, NULL, global);
-}
+// Local<Context> setupCustomFunction()
+// {
+//   Require *require;
+//   Local<ObjectTemplate> global = ObjectTemplate::New(isolate);
+//   global->Set(String::NewFromUtf8(
+//                   isolate, "require", NewStringType::kNormal)
+//                   .ToLocalChecked(),
+//               FunctionTemplate::New(isolate, require::Exec));
+//   return Context::New(isolate, NULL, global);
+// }
