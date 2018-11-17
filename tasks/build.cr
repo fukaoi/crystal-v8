@@ -29,14 +29,16 @@ class Build < LuckyCli::Task
   end
 
   def call
+    mkdir_libv8
     cplus_build
     crystal_build
+    copy_libv8
     success("Build done")
   rescue e : Exception
     error(e.to_s)
   end
 
-  def crystal_build
+  private def crystal_build
     raise Exception.new("Crystal build failed") unless system(
       <<-CMD
         crystal build \
@@ -47,7 +49,7 @@ class Build < LuckyCli::Task
     )
   end
 
-  def cplus_build
+  private def cplus_build
     cmd =
     <<-CMD
       cd #{V8_DIR}; \
@@ -62,11 +64,14 @@ class Build < LuckyCli::Task
     CMD
     debug(cmd) if @env == "test"
     raise Exception.new("C++ build failed") unless system(cmd)
-    copy_libv8
+  end
+
+  private def mkdir_libv8
+    debug(`pwd`)
+    FileUtils.mkdir(LIBRARY_DIR) unless Dir.exists?(LIBRARY_DIR)
   end
 
   private def copy_libv8
-    FileUtils.mkdir(LIBRARY_DIR) unless Dir.exists?(LIBRARY_DIR)
     get_v8_shared_object.each { |so| FileUtils.cp("#{V8_DIR}/#{get_gn_dir}/#{so}", "#{LIBRARY_DIR}/#{so}") }
   end
 end
@@ -79,12 +84,12 @@ class V8Build < LuckyCli::Task
   end
 
   def call
-    result_flag = true
-    result_flag = system("cd ./#{V8_DIR}; ./tools/dev/v8gen.py ./#{get_gn_dir}")
-    result_flag = system("cd ./#{V8_DIR}; gn gen ./#result_flag = {get_gn_dir} #{create_gn_args}")
-    result_flag = system("cd ./#{V8_DIR}; ninja -C #{get_gn_dir}")
+    res_flag = true
+    res_flag & system("cd ./#{V8_DIR}; ./tools/dev/v8gen.py ./#{get_gn_dir}")
+    res_flag & system("cd ./#{V8_DIR}; gn gen ./#res_flag = {get_gn_dir} #{create_gn_args}")
+    res_flag & system("cd ./#{V8_DIR}; ninja -C #{get_gn_dir}")
 
-    if result_flag
+    if res_flag
       success("V8 build done")
     else
       error("V8 build failed")
