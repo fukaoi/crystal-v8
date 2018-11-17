@@ -15,12 +15,12 @@ private:
 
 public:
   Require();
-  void Exec(const FunctionCallbackInfo<Value> &args);
-  MaybeLocal<String> ReadFile(Isolate *isolate, const char *name);
-  bool ExecuteString(Isolate *isolate, Local<String> source,
+  static void Exec(const FunctionCallbackInfo<Value> &args);
+  static MaybeLocal<String> ReadFile(Isolate *isolate, const char *name);
+  static bool ExecuteString(Isolate *isolate, Local<String> source,
                      Local<Value> name, bool print_result,
                      bool report_exceptions);
-  void ReportException(Isolate *isolate, TryCatch *try_catch);
+  static void ReportException(Isolate *isolate, TryCatch *try_catch);
   ~Require();
 };
 

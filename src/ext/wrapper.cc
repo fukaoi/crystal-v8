@@ -34,7 +34,7 @@ void init()
 
   Isolate::Scope isolate_scope(isolate);
   HandleScope handle_scope(isolate);
-  context.Reset(isolate, Context::New(isolate));
+  context.Reset(isolate, SetupCustomFunction());
 }
 
 void destroy()
@@ -62,13 +62,12 @@ const char* eval(const char *src)
   return Utility::ToCrystalString(utf8);
 }
 
-// Local<Context> setupCustomFunction()
-// {
-//   Require *require;
-//   Local<ObjectTemplate> global = ObjectTemplate::New(isolate);
-//   global->Set(String::NewFromUtf8(
-//                   isolate, "require", NewStringType::kNormal)
-//                   .ToLocalChecked(),
-//               FunctionTemplate::New(isolate, require::Exec));
-//   return Context::New(isolate, NULL, global);
-// }
+Local<Context> SetupCustomFunction()
+{
+  Local<ObjectTemplate> global = ObjectTemplate::New(isolate);
+  global->Set(String::NewFromUtf8(
+                  isolate, "require", NewStringType::kNormal)
+                  .ToLocalChecked(),
+              FunctionTemplate::New(isolate, Require::Exec));
+  return Context::New(isolate, NULL, global);
+}
