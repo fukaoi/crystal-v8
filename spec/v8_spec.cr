@@ -38,18 +38,60 @@ describe V8::JS do
   end
 
   it "Load js file" do
-    code = File.read("#{__DIR__}/support/function.js")
+    code = File.read("#{__DIR__}/support/fn.js")
     call = "demo('Calling for spec test');"
-    res = v8.eval("#{code};#{call}")
-    res.should  eq "In function.js: Calling for spec test"
+    puts v8.eval("#{code};#{call}")
   end
 
-  it "Require js file" do
-    # code = File.read("#{__DIR__}/support/to_require.js")
-    # res = v8.eval(code)
-    main_code = File.read("#{__DIR__}/support/require_fn.js")
-    res = v8.eval(main_code)
-    res.should  eq "In function.js: Calling for spec test"
+  it "async()" do
+    main_code = <<-CMD
+    (async() => {
+      const dataList = await Promise.all([
+      fetch('https://qiita.com/api/v2/tags/Node.js'),
+      fetch('https://qiita.com/api/v2/tags/JavaScript'),
+      fetch('https://qiita.com/api/v2/tags/npm'),
+    ]);
+    for (const data of dataList) {
+      console.log(data);
+    }
+    })();
+    CMD
+    puts v8.eval(main_code)
+  end
+
+  it "import()" do
+    main_code = <<-CMD
+      //import('./support/fn.js')
+      demo('import function OK!!!!')
+    CMD
+    puts v8.eval(main_code)
+  end
+
+  it "promise()" do
+    main_code = <<-CMD
+    Promise.resolve("resolve")
+    .then(val => {console.log(val);return "then"})
+    .then(val => {console.log(val);throw new Error("catch")})
+    .catch(err => {console.log(err.message)})
+    .finally(() => {console.log("finally")});
+    CMD
+    puts v8.eval(main_code)
+  end
+
+  it "Not work function" do
+    main_code = <<-CMD
+      /*
+      exports.data = {
+        a: 10,
+        b: 20
+      }
+      */
+      //console.log(1);
+      //require('./support/fn.js')
+      //module.exports = {}
+      fs = import('hogehoge');
+    CMD
+    puts v8.eval(main_code)
   end
 end
 v8.destructor
