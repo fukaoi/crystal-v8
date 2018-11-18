@@ -35,7 +35,7 @@ class Build < LuckyCli::Task
     copy_libv8
     success("Build done")
   rescue e : Exception
-    error(e.to_s)
+    failed(e.to_s)
   end
 
   private def crystal_build
@@ -91,7 +91,7 @@ class V8Build < LuckyCli::Task
     if res_flag
       success("V8 build done")
     else
-      error("V8 build failed")
+      failed("V8 build failed")
     end
   end
 

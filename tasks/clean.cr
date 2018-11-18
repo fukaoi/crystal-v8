@@ -6,7 +6,7 @@ class Clean < LuckyCli::Task
 
   def call
     unless system(BIN_RM)
-      error("Failed clean up")
+      failed("Failed clean up")
     else
       success("Clean up")
     end
@@ -19,7 +19,7 @@ class FullClean < LuckyCli::Task
   def call
     Clean.new.call
     unless system("rm -rf ./#{V8_DIR} && rm -rf tools/.gclient* && rm -rf tools/.cipd")
-      error("Failed clean up")
+      failed("Failed clean up")
     else
       success("full clean up")
     end

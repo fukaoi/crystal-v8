@@ -62,7 +62,7 @@ def debug(message)
   puts "\n"
 end
 
-def error(message)
+def failed(message)
   puts message.colorize(:red)
 end
 

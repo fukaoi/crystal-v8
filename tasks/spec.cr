@@ -11,6 +11,6 @@ class Spec < LuckyCli::Task
     end
     success("Done spec")
   rescue e : Exception
-    error(e.to_s)
+    failed(e.to_s)
   end
 end

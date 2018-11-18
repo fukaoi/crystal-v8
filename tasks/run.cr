@@ -19,7 +19,7 @@ class Run < LuckyCli::Task
 
   def call
     unless system("./bin/#{@binary_name}")
-      error("Failed running")
+      failed("Failed running")
     else
       success("Done")
     end
