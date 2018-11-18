@@ -43,5 +43,12 @@ describe V8::JS do
     res = v8.eval("#{code};#{call}")
     res.should  eq "In function.js: Calling for spec test"
   end
+
+  it "Require js file" do
+    code = File.read("#{__DIR__}/support/require_fn.js")
+    !p code
+    res = v8.eval(code)
+    res.should  eq "In function.js: Calling for spec test"
+  end
 end
 v8.destructor

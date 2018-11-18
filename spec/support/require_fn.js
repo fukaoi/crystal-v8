@@ -1,7 +1,7 @@
-let obj = require('./fn.js')
+let To = require('./to_require.js')
 
-let main = function (fn) {
-  return `main: ${fn()}`
+let main = function (res) {
+  return `main: ${res}`
 }
 
-main(obj.demo('require demo'))
+main(To.multipli(10));
