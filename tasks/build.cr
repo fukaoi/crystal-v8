@@ -43,7 +43,7 @@ class Build < LuckyCli::Task
       <<-CMD
         crystal build \
         #{@crytal_option} \
-        #{ENV["PWD"]}/src/#{get_target_main} \
+        #{ENV["PWD"]}/src/v8.cr \
         -o bin/#{@file_name}
       CMD
     )
