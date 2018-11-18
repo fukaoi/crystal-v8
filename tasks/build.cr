@@ -54,7 +54,7 @@ class Build < LuckyCli::Task
     <<-CMD
       cd #{V8_DIR}; \
       g++ -I. -Iinclude \
-      ../../src/ext/*.cc \
+      -c ../../src/ext/wrapper.cc \
       -o ../../#{LIBRARY_DIR}/lib_wrapper.so \
       -L#{get_gn_dir}/obj/ \
       -fPIC \

@@ -6,8 +6,8 @@
 #include <iostream>
 #include "libplatform/libplatform.h"
 #include "v8.h"
-#include "utility.h"
-#include "require.h"
+#include "utility.cc"
+#include "require.cc"
 
 using namespace std;
 using namespace v8;
