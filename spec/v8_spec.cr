@@ -37,9 +37,11 @@ describe V8::JS do
     res.should eq "400"
   end
 
-  # it "Load js file" do
-  #   code = File.read("#{__DIR__}/suppoert/function.js")
-  #   res = v8.eval(code)
-  # end
+  it "Load js file" do
+    code = File.read("#{__DIR__}/support/function.js")
+    call = "demo('Calling for spec test');"
+    res = v8.eval("#{code};#{call}")
+    res.should  eq "In function.js: Calling for spec test"
+  end
 end
 v8.destructor

@@ -1,3 +1,3 @@
 function demo(src) {
-  return "In function.js demo(): #{src}"
+  return `In function.js: ${src}`
 }
