@@ -45,9 +45,10 @@ describe V8::JS do
   end
 
   it "Require js file" do
-    code = File.read("#{__DIR__}/support/require_fn.js")
-    !p code
-    res = v8.eval(code)
+    # code = File.read("#{__DIR__}/support/to_require.js")
+    # res = v8.eval(code)
+    main_code = File.read("#{__DIR__}/support/require_fn.js")
+    res = v8.eval(main_code)
     res.should  eq "In function.js: Calling for spec test"
   end
 end

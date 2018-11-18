@@ -1,5 +1,7 @@
-let multipli = function (num) {
-  return num * 100;
+var To = {
+  multipli: function (num) {
+    return num * 100;
+  }  
 }
 
-exports.multipli = multipli;
+To.multipli(10);

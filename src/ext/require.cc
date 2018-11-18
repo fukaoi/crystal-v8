@@ -9,7 +9,7 @@ inline void Require::Exec(const FunctionCallbackInfo<Value> &args)
     if (*file == NULL)
     {
       args.GetIsolate()->ThrowException(
-          String::NewFromUtf8(args.GetIsolate(), "Error loading file",
+          String::NewFromUtf8(args.GetIsolate(), "Error loading file file objct is NULL",
                               NewStringType::kNormal)
               .ToLocalChecked());
       return;
