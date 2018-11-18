@@ -5,10 +5,12 @@ class Spec < LuckyCli::Task
 
   def call
     if ARGV.size > 0
-      system("LD_LIBRARY_PATH=`pwd`/#{LIBRARY_DIR} crystal spec -v #{ARGV[0]}")
+      raise Exception.new("Failed a spec") unless system("LD_LIBRARY_PATH=`pwd`/#{LIBRARY_DIR} crystal spec -v #{ARGV[0]}")
     else
-      system("LD_LIBRARY_PATH=`pwd`/#{LIBRARY_DIR} crystal spec -v spec/")
+      raise Exception.new("Failed all spec") unless system("LD_LIBRARY_PATH=`pwd`/#{LIBRARY_DIR} crystal spec -v spec/")
     end
-    puts "Done spec."
+    success("Done spec")
+  rescue e : Exception
+    error(e.to_s)
   end
 end
